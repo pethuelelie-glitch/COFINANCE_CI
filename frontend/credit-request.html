@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demande de crédit — COFINANCE CI</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="credit-request">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo-mark">CI</div>
+      <div class="sidebar-brand-text"><div class="sidebar-brand-name">COFINANCE CI</div><div class="sidebar-brand-tag">FINTECH</div></div>
+    </div>
+    <button class="sidebar-close" onclick="Sidebar.close()">×</button>
+  </div>
+  <div class="sidebar-user">
+    <div class="sidebar-avatar"></div>
+    <div class="sidebar-user-info"><div class="sidebar-user-name">—</div><div class="sidebar-user-role">—</div></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <a href="client-dashboard.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+    <a href="credits.html" class="nav-item active"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Mes crédits</a>
+    <a href="repayments.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Remboursements</a>
+    <a href="insurance.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Assurances</a>
+    <div class="nav-section-label">Communication</div>
+    <a href="notifications.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Notifications<span class="notif-count-badge nav-badge" style="display:none">0</span></a>
+    <a href="chat.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Support Chat</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="profile.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mon profil</a>
+    <button class="nav-item nav-logout" id="logoutBtn"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+  </div>
+</aside>
+
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-menu-btn" id="menuToggle"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div class="topbar-breadcrumb">
+        <a href="client-dashboard.html" class="breadcrumb-link">Accueil</a>
+        <span class="breadcrumb-sep">›</span>
+        <a href="credits.html" class="breadcrumb-link">Crédits</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>Nouvelle demande</span>
+      </div>
+    </div>
+    <div class="topbar-right"><div class="topbar-avatar topbar-user-avatar">—</div></div>
+  </header>
+
+  <main class="app-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Nouvelle demande de crédit</h1>
+        <p class="page-subtitle">Complétez le formulaire pour soumettre votre demande</p>
+      </div>
+      <a href="credits.html" class="btn btn-outline">← Retour</a>
+    </div>
+
+    <div class="grid-main-side" style="max-width:1000px">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Informations du crédit</div>
+            <div class="card-subtitle">Tous les champs marqués * sont obligatoires</div>
+          </div>
+        </div>
+        <form id="creditRequestForm" onsubmit="CreditRequestPage.submit(event)">
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Montant souhaité (FCFA) <span class="req">*</span></label>
+              <div class="input-with-icon">
+                <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                <input type="number" id="montant" name="montant" class="form-control" placeholder="ex: 500 000" min="10000" step="1000" required />
+              </div>
+              <div class="form-helper">Montant minimum : 10 000 FCFA</div>
+            </div>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Durée de remboursement <span class="req">*</span></label>
+                <select id="duree_mois" name="duree_mois" class="form-control form-select" required>
+                  <option value="">— Sélectionner —</option>
+                  <option value="3">3 mois</option>
+                  <option value="6">6 mois</option>
+                  <option value="12">12 mois</option>
+                  <option value="18">18 mois</option>
+                  <option value="24">24 mois</option>
+                  <option value="36">36 mois</option>
+                  <option value="48">48 mois</option>
+                  <option value="60">60 mois</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Taux d'intérêt (%)</label>
+                <input type="number" id="taux_interet" name="taux_interet" class="form-control" value="5.0" step="0.1" min="0" max="100" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Motif du crédit <span class="req">*</span></label>
+              <select id="motif" name="motif" class="form-control form-select" required>
+                <option value="">— Sélectionner un motif —</option>
+                <option value="Activité commerciale">Activité commerciale</option>
+                <option value="Construction / Rénovation">Construction / Rénovation</option>
+                <option value="Éducation / Formation">Éducation / Formation</option>
+                <option value="Santé">Santé</option>
+                <option value="Agriculture">Agriculture</option>
+                <option value="Équipement">Équipement</option>
+                <option value="Transport">Transport</option>
+                <option value="Autres">Autres</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Description détaillée</label>
+              <textarea id="description" name="description" class="form-control" rows="4" placeholder="Décrivez votre projet et l'utilisation prévue du crédit…"></textarea>
+            </div>
+
+            <!-- Simulateur -->
+            <div style="padding:20px;background:var(--c-primary-light);border-radius:var(--r-md);border:1px solid rgba(29,78,216,.15);margin-bottom:18px" id="simulateur" style="display:none">
+              <div style="font-size:.78rem;font-weight:700;color:var(--c-primary);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px">Simulation</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div>
+                  <div style="font-size:.75rem;color:var(--t-muted)">Mensualité estimée</div>
+                  <div style="font-size:1.4rem;font-weight:800;color:var(--c-primary)" id="sim-mensualite">—</div>
+                </div>
+                <div>
+                  <div style="font-size:.75rem;color:var(--t-muted)">Total à rembourser</div>
+                  <div style="font-size:1.4rem;font-weight:800;color:var(--t-primary)" id="sim-total">—</div>
+                </div>
+              </div>
+            </div>
+
+            <div id="requestError" style="display:none;padding:12px;background:var(--c-danger-light);border:1px solid rgba(220,38,38,.2);border-radius:var(--r-sm);font-size:.84rem;color:var(--c-danger);margin-bottom:16px"></div>
+
+            <div class="form-actions">
+              <button type="submit" id="submitBtn" class="btn btn-primary btn-lg">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+                Soumettre ma demande
+              </button>
+              <a href="credits.html" class="btn btn-ghost btn-lg">Annuler</a>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Info panel -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card">
+          <div class="card-body">
+            <div style="font-size:.82rem;font-weight:700;color:var(--t-primary);margin-bottom:12px">Comment ça marche ?</div>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-line"><div class="timeline-dot primary"></div><div class="timeline-connector"></div></div>
+                <div class="timeline-content"><div class="timeline-event">Soumission</div><div class="timeline-desc">Votre demande est enregistrée et transmise</div></div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-line"><div class="timeline-dot warning"></div><div class="timeline-connector"></div></div>
+                <div class="timeline-content"><div class="timeline-event">Analyse</div><div class="timeline-desc">Un agent examine votre dossier sous 48h</div></div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-line"><div class="timeline-dot success"></div><div class="timeline-connector"></div></div>
+                <div class="timeline-content"><div class="timeline-event">Décision</div><div class="timeline-desc">Vous recevez une notification de la décision</div></div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-line"><div class="timeline-dot success"></div></div>
+                <div class="timeline-content"><div class="timeline-event">Décaissement</div><div class="timeline-desc">Les fonds sont virés rapidement</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="background:linear-gradient(135deg,#065f46,var(--c-success));color:#fff;border:none">
+          <div class="card-body">
+            <div style="font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.75;margin-bottom:10px">Conseil</div>
+            <div style="font-size:.875rem;opacity:.9;line-height:1.6">Assurez-vous que vos informations de profil sont complètes pour accélérer le traitement de votre demande.</div>
+            <a href="profile.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:.82rem;font-weight:600;color:#fff;opacity:.9">Compléter mon profil →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+function updateSimulator() {
+  const montant = parseFloat(document.getElementById('montant').value) || 0;
+  const duree = parseInt(document.getElementById('duree_mois').value) || 0;
+  const taux = parseFloat(document.getElementById('taux_interet').value) || 0;
+  const sim = document.getElementById('simulateur');
+  if (montant > 0 && duree > 0) {
+    sim.style.display = 'block';
+    const tauxM = (taux / 100) / 12;
+    let mensualite;
+    if (tauxM === 0) {
+      mensualite = montant / duree;
+    } else {
+      mensualite = montant * (tauxM * Math.pow(1 + tauxM, duree)) / (Math.pow(1 + tauxM, duree) - 1);
+    }
+    document.getElementById('sim-mensualite').textContent = Fmt.money(mensualite) + ' FCFA';
+    document.getElementById('sim-total').textContent = Fmt.money(mensualite * duree) + ' FCFA';
+  } else {
+    sim.style.display = 'none';
+  }
+}
+
+['montant','duree_mois','taux_interet'].forEach(id => {
+  document.getElementById(id)?.addEventListener('input', updateSimulator);
+  document.getElementById(id)?.addEventListener('change', updateSimulator);
+});
+</script>
+</body>
+</html>

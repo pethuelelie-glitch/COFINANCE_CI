@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion — COFINANCE CI</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="login">
+
+<div class="auth-page">
+  <!-- LEFT PANEL -->
+  <div class="auth-panel-left">
+    <div class="auth-brand">
+      <div class="auth-brand-mark">CI</div>
+      <div>
+        <div class="auth-brand-name">COFINANCE CI</div>
+        <div class="auth-brand-tag">FINTECH · CÔTE D'IVOIRE</div>
+      </div>
+    </div>
+
+    <div class="auth-body">
+      <h2 class="auth-tagline">La finance ivoirienne à <em>portée de main</em></h2>
+      <p class="auth-desc">Accédez à votre espace personnel pour gérer vos crédits, assurances et remboursements en toute sécurité.</p>
+
+      <div class="auth-features">
+        <div class="auth-feature">
+          <div class="auth-feature-icon stat-icon-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+          </div>
+          <div>
+            <div class="auth-feature-title">Crédits Express</div>
+            <div class="auth-feature-text">Réponse sous 48h, décaissement rapide</div>
+          </div>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon stat-icon-success">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="auth-feature-title">Assurances Complètes</div>
+            <div class="auth-feature-text">Protection vie, décès et invalidité</div>
+          </div>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon stat-icon-gold">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <div class="auth-feature-title">Suivi Temps Réel</div>
+            <div class="auth-feature-text">Tableau de bord interactif et complet</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-stats">
+        <div>
+          <div class="auth-stat-val">2 400+</div>
+          <div class="auth-stat-lbl">Clients</div>
+        </div>
+        <div>
+          <div class="auth-stat-val">850M</div>
+          <div class="auth-stat-lbl">FCFA décaissés</div>
+        </div>
+        <div>
+          <div class="auth-stat-val">98.4%</div>
+          <div class="auth-stat-lbl">Satisfaction</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="auth-panel-right">
+    <div class="auth-form-box">
+      <div class="auth-form-title">Bon retour 👋</div>
+      <div class="auth-form-subtitle">Connectez-vous à votre compte COFINANCE CI</div>
+
+      <div class="auth-form-wrapper">
+        <form id="loginForm" onsubmit="handleLogin(event)" novalidate>
+
+          <div class="form-group">
+            <label class="form-label">Adresse email</label>
+            <div class="input-with-icon">
+              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              <input type="email" id="loginEmail" class="form-control" placeholder="votre@email.ci" autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" style="display:flex;align-items:center;justify-content:space-between">
+              <span>Mot de passe</span>
+              <a href="#" style="font-size:.78rem;color:var(--c-primary);font-weight:500" onclick="return false">Oublié ?</a>
+            </label>
+            <div class="input-with-icon input-with-toggle">
+              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0110 0v4"/>
+              </svg>
+              <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" autocomplete="current-password" />
+              <button type="button" class="toggle-password" onclick="togglePwd(this)" tabindex="-1" aria-label="Voir le mot de passe">
+                <svg class="eye-off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+                <svg class="eye-on" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;margin:4px 0 20px">
+            <label style="display:flex;align-items:center;gap:8px;font-size:.84rem;color:var(--t-muted);cursor:pointer;user-select:none">
+              <input type="checkbox" id="rememberMe" style="accent-color:var(--c-primary);width:15px;height:15px" />
+              Se souvenir de moi
+            </label>
+          </div>
+
+          <button type="submit" id="loginBtn" class="btn btn-primary btn-lg" style="width:100%;font-size:1rem;letter-spacing:.01em">
+            Se connecter →
+          </button>
+
+          <div id="loginError" style="display:none;margin-top:14px;padding:12px 14px;background:#FEE2E2;border:1px solid rgba(220,38,38,.25);border-radius:var(--r-sm);font-size:.84rem;color:#B91C1C;font-weight:500"></div>
+        </form>
+      </div>
+
+      <div class="auth-footer">
+        Pas encore de compte ? <a href="register.html">Créer un compte gratuit</a>
+      </div>
+      <div class="auth-footer" style="margin-top:10px">
+        <a href="index.html" style="color:var(--t-muted);font-size:.78rem">← Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- app.js doit être chargé EN PREMIER (définit Http, Auth, API, APP_ROOT) -->
+<script src="assets/js/app.js"></script>
+<script>
+/* ── Redirection si déjà connecté ─────────────────────────── */
+(function() {
+  if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
+    const user = Auth.getUser();
+    const dest = (user && user.role === 'CLIENT') ? 'client-dashboard.html'
+               : (user && user.role === 'AGENT')  ? 'agent-dashboard.html'
+               : 'admin-dashboard.html';
+    window.location.href = (typeof APP_ROOT !== 'undefined' ? APP_ROOT : '') + dest;
+  }
+})();
+
+/* ── Handler de connexion ──────────────────────────────────── */
+async function handleLogin(e) {
+  e.preventDefault();
+
+  const btn   = document.getElementById('loginBtn');
+  const errEl = document.getElementById('loginError');
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw    = document.getElementById('loginPassword').value;
+
+  /* Masquer l'erreur précédente */
+  errEl.style.display = 'none';
+
+  /* Validation simple */
+  if (!email || !pw) {
+    errEl.textContent = 'Veuillez saisir votre email et votre mot de passe.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  /* État de chargement */
+  const origHtml = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px"></span>Connexion…';
+
+  try {
+    const data = await Http.post(API.login, { email, password: pw });
+
+    if (!data || !data.tokens || !data.user) {
+      throw new Error('Réponse inattendue du serveur.');
+    }
+
+    Auth.save(data.tokens, data.user);
+    btn.innerHTML = '✓ Connecté !';
+    btn.style.background = '#16a34a';
+
+    const dest = data.user.role === 'CLIENT' ? 'client-dashboard.html'
+               : data.user.role === 'AGENT'  ? 'agent-dashboard.html'
+               : 'admin-dashboard.html';
+    setTimeout(() => {
+      window.location.href = APP_ROOT + dest;
+    }, 400);
+
+  } catch (err) {
+    let msg = (err && err.message) ? err.message : 'Erreur de connexion.';
+    if (msg.toLowerCase().includes('fetch') || msg.toLowerCase().includes('failed') || msg.toLowerCase().includes('network')) {
+      msg = 'Impossible de joindre le serveur. Vérifiez que Django tourne sur http://127.0.0.1:8000';
+    }
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = origHtml;
+    btn.style.background = '';
+  }
+}
+window.handleLogin = handleLogin;
+</script>
+</body>
+</html>

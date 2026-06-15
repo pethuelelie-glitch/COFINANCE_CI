@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assurances — COFINANCE CI</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="admin-insurances">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-brand"><div class="sidebar-logo-mark">CI</div><div class="sidebar-brand-text"><div class="sidebar-brand-name">COFINANCE CI</div><div class="sidebar-brand-tag">ADMINISTRATION</div></div></div>
+    <button class="sidebar-close" onclick="Sidebar.close()">×</button>
+  </div>
+  <div class="sidebar-user"><div class="sidebar-avatar" style="background:linear-gradient(135deg,var(--c-danger),#f87171)"></div><div class="sidebar-user-info"><div class="sidebar-user-name">—</div><div class="sidebar-user-role">—</div></div></div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Administration</div>
+    <a href="admin-dashboard.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+    <a href="admin-clients.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Clients</a>
+    <a href="admin-agents.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>Agents</a>
+    <a href="admin-credits.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Crédits (Kanban)</a>
+    <a href="admin-insurances.html" class="nav-item active"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Assurances</a>
+    <a href="admin-support.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Support</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="profile.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mon profil</a>
+    <button class="nav-item nav-logout" id="logoutBtn"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+  </div>
+</aside>
+
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-menu-btn" id="menuToggle"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div class="topbar-breadcrumb"><a href="admin-dashboard.html" class="breadcrumb-link">Administration</a><span class="breadcrumb-sep">›</span><span>Assurances</span></div>
+    </div>
+    <div class="topbar-right"><div class="topbar-avatar topbar-user-avatar">—</div></div>
+  </header>
+
+  <main class="app-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Gestion des assurances</h1>
+        <p class="page-subtitle">Catalogue de produits et suivi des polices clients</p>
+      </div>
+      <button class="btn btn-primary" onclick="openProductModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Ajouter un produit
+      </button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-label">Produits</div><div class="stat-value" id="statProducts">—</div></div>
+      <div class="stat-card"><div class="stat-label">Polices actives</div><div class="stat-value" id="statActive">—</div></div>
+      <div class="stat-card"><div class="stat-label">Polices expirées</div><div class="stat-value" id="statExpired">—</div></div>
+      <div class="stat-card"><div class="stat-label">Polices résiliées</div><div class="stat-value" id="statCancelled">—</div></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-bar mb-6">
+      <button class="tab-btn active" onclick="showInsuranceTab('products', this)">Catalogue produits</button>
+      <button class="tab-btn" onclick="showInsuranceTab('policies', this)">Polices clients</button>
+    </div>
+
+    <!-- Catalogue produits -->
+    <div id="tab-products">
+      <div id="productGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px">
+        <div style="text-align:center;padding:48px"><div class="spinner" style="margin:0 auto"></div></div>
+      </div>
+    </div>
+
+    <!-- Polices clients -->
+    <div id="tab-policies" style="display:none">
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--b-subtle);display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <input type="text" id="policySearch" class="form-control" style="max-width:260px" placeholder="Rechercher un client…" oninput="filterPolicies()" />
+          <select id="policyStatusFilter" class="form-control" style="max-width:180px" onchange="filterPolicies()">
+            <option value="">Tous les statuts</option>
+            <option value="ACTIVE">Actives</option>
+            <option value="EXPIREE">Expirées</option>
+            <option value="RESILIEE">Résiliées</option>
+          </select>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Produit</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="policiesTableBody">
+              <tr><td colspan="6" style="text-align:center;padding:32px"><div class="spinner" style="margin:0 auto"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal créer/modifier produit -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title" id="productModalTitle">Ajouter un produit</h3>
+      <button class="modal-close" onclick="Modal.close('productModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="productId" value="" />
+      <div class="form-group">
+        <label class="form-label">Nom du produit <span class="req">*</span></label>
+        <input type="text" id="productNom" class="form-control" placeholder="Ex: Assurance Vie Premium" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Type de produit <span class="req">*</span></label>
+        <select id="productType" class="form-control">
+          <option value="VIE">Assurance Vie</option>
+          <option value="DECES_INVALIDITE">Décès &amp; Invalidité</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Prime mensuelle (FCFA) <span class="req">*</span></label>
+        <input type="number" id="productPrime" class="form-control" placeholder="Ex: 15000" min="0" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Couverture maximale (FCFA) <span class="req">*</span></label>
+        <input type="number" id="productCouverture" class="form-control" placeholder="Ex: 5000000" min="0" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description <span class="req">*</span></label>
+        <textarea id="productDescription" class="form-control" rows="3" placeholder="Décrivez les garanties offertes…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="Modal.close('productModal')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveProduct()" id="productSaveBtn">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal confirmation suppression -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <h3 class="modal-title">Supprimer le produit</h3>
+      <button class="modal-close" onclick="Modal.close('deleteModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--t-secondary)">Cette action est irréversible. Voulez-vous vraiment supprimer <strong id="deleteProductName"></strong> ?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="Modal.close('deleteModal')">Annuler</button>
+      <button class="btn" style="background:var(--c-danger);color:#fff;border:none" onclick="confirmDeleteProduct()">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+let allProducts = [];
+let allPolicies = [];
+let deleteProductId = null;
+
+async function initInsurances() {
+  if (!Auth.requireLogin(['ADMIN'])) return;
+  Sidebar.init();
+  await Promise.all([loadAdminProducts(), loadAdminPolicies()]);
+}
+
+async function loadAdminProducts() {
+  try {
+    const data = await Http.get(API.insuranceProducts);
+    allProducts = data.results || data || [];
+    renderAdminProducts();
+    document.getElementById('statProducts').textContent = allProducts.length;
+  } catch {
+    document.getElementById('productGrid').innerHTML = '<p style="color:var(--t-muted);padding:24px">Erreur de chargement.</p>';
+  }
+}
+
+async function loadAdminPolicies() {
+  try {
+    const data = await Http.get(API.insuranceAll);
+    allPolicies = data.results || data || [];
+    renderAdminPolicies(allPolicies);
+    document.getElementById('statActive').textContent    = allPolicies.filter(p => p.statut === 'ACTIVE').length;
+    document.getElementById('statExpired').textContent   = allPolicies.filter(p => p.statut === 'EXPIREE').length;
+    document.getElementById('statCancelled').textContent = allPolicies.filter(p => p.statut === 'RESILIEE').length;
+  } catch {
+    document.getElementById('policiesTableBody').innerHTML =
+      '<tr><td colspan="6" style="text-align:center;color:var(--t-muted);padding:32px">Erreur de chargement.</td></tr>';
+  }
+}
+
+function renderAdminProducts() {
+  const grid = document.getElementById('productGrid');
+  if (!allProducts.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:48px 24px">
+      <div style="font-size:3rem;margin-bottom:16px">🛡</div>
+      <p style="color:var(--t-muted);margin-bottom:20px">Aucun produit d'assurance. Commencez par en créer un.</p>
+      <button class="btn btn-primary" onclick="openProductModal()">Ajouter un produit</button>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = allProducts.map(p => `
+    <div class="insurance-card animate-fadeIn">
+      <div class="insurance-card-header">
+        <div style="font-size:.8rem;opacity:.8;margin-bottom:6px">${p.type_produit === 'VIE' ? '🛡 Assurance Vie' : '🏥 Décès & Invalidité'}</div>
+        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px">${p.nom}</h3>
+        <div class="insurance-price">${Fmt.money(p.prime_mensuelle)} <span>/mois</span></div>
+      </div>
+      <div class="insurance-card-body">
+        <p class="text-sm text-secondary" style="margin-bottom:12px">${p.description}</p>
+        <div class="insurance-feature">Couverture max : <strong>${Fmt.money(p.couverture_max)}</strong></div>
+        <div style="margin-top:20px;display:flex;gap:8px">
+          <button class="btn btn-ghost btn-sm" style="flex:1" onclick="editProduct(${p.id})">Modifier</button>
+          <button class="btn btn-sm" style="flex:1;background:var(--c-danger);color:#fff;border:none" onclick="openDeleteModal(${p.id}, '${p.nom.replace(/'/g, "\\'")}')">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAdminPolicies(policies) {
+  const tbody = document.getElementById('policiesTableBody');
+  if (!policies.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--t-muted);padding:32px">Aucune police trouvée.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = policies.map(p => {
+    const client  = p.client_name       || (p.client  ? `Client #${p.client}`  : '—');
+    const produit = p.produit_details?.nom || (p.produit ? `Produit #${p.produit}` : '—');
+    return `<tr>
+      <td>${client}</td>
+      <td>${produit}</td>
+      <td>${Fmt.date(p.date_debut)}</td>
+      <td>${Fmt.date(p.date_fin)}</td>
+      <td>${Fmt.statusBadge(p.statut)}</td>
+      <td>${p.statut === 'ACTIVE'
+        ? `<button class="btn btn-sm" style="background:var(--c-danger);color:#fff;border:none" onclick="resilierPolicy(${p.id})">Résilier</button>`
+        : '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterPolicies() {
+  const search = document.getElementById('policySearch').value.toLowerCase();
+  const status = document.getElementById('policyStatusFilter').value;
+  const filtered = allPolicies.filter(p => {
+    const client  = (p.client_name || '').toLowerCase();
+    const produit = (p.produit_details?.nom || '').toLowerCase();
+    const matchSearch = !search || client.includes(search) || produit.includes(search);
+    const matchStatus = !status || p.statut === status;
+    return matchSearch && matchStatus;
+  });
+  renderAdminPolicies(filtered);
+}
+
+function showInsuranceTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-products').style.display = tab === 'products' ? '' : 'none';
+  document.getElementById('tab-policies').style.display = tab === 'policies' ? '' : 'none';
+}
+
+function openProductModal(product) {
+  document.getElementById('productId').value          = product ? product.id : '';
+  document.getElementById('productNom').value         = product ? product.nom : '';
+  document.getElementById('productType').value        = product ? product.type_produit : 'VIE';
+  document.getElementById('productPrime').value       = product ? product.prime_mensuelle : '';
+  document.getElementById('productCouverture').value  = product ? product.couverture_max : '';
+  document.getElementById('productDescription').value = product ? product.description : '';
+  document.getElementById('productModalTitle').textContent = product ? 'Modifier le produit' : 'Ajouter un produit';
+  Modal.open('productModal');
+}
+
+function editProduct(id) {
+  const product = allProducts.find(p => p.id === id);
+  if (product) openProductModal(product);
+}
+
+function openDeleteModal(id, nom) {
+  deleteProductId = id;
+  document.getElementById('deleteProductName').textContent = nom;
+  Modal.open('deleteModal');
+}
+
+async function saveProduct() {
+  const id          = document.getElementById('productId').value;
+  const nom         = document.getElementById('productNom').value.trim();
+  const type_produit= document.getElementById('productType').value;
+  const prime       = document.getElementById('productPrime').value;
+  const couverture  = document.getElementById('productCouverture').value;
+  const description = document.getElementById('productDescription').value.trim();
+
+  if (!nom || !prime || !couverture || !description) {
+    Toast.show('Champs requis', 'error', 'Remplissez tous les champs obligatoires.');
+    return;
+  }
+
+  const btn = document.getElementById('productSaveBtn');
+  btn.disabled = true;
+  btn.textContent = 'Enregistrement…';
+
+  const payload = { nom, type_produit, prime_mensuelle: Number(prime), couverture_max: Number(couverture), description };
+
+  try {
+    if (id) {
+      await Http.patch(API.insuranceProductDetail(Number(id)), payload);
+      Toast.show('Produit modifié', 'success');
+    } else {
+      await Http.post(API.insuranceProductManage, payload);
+      Toast.show('Produit créé', 'success');
+    }
+    Modal.close('productModal');
+    await loadAdminProducts();
+  } catch (err) {
+    Toast.show('Erreur', 'error', err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Enregistrer';
+  }
+}
+
+async function confirmDeleteProduct() {
+  if (!deleteProductId) return;
+  try {
+    await Http.delete(API.insuranceProductDetail(deleteProductId));
+    Modal.close('deleteModal');
+    Toast.show('Produit supprimé', 'success');
+    await loadAdminProducts();
+  } catch (err) {
+    Toast.show('Erreur', 'error', err.message);
+  }
+}
+
+async function resilierPolicy(id) {
+  if (!confirm('Résilier cette police ?')) return;
+  try {
+    await Http.patch(API.insuranceResilier(id), {});
+    Toast.show('Police résiliée', 'success');
+    await loadAdminPolicies();
+  } catch (err) {
+    Toast.show('Erreur', 'error', err.message);
+  }
+}
+
+initInsurances();
+</script>
+</body>
+</html>

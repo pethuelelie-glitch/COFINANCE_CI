@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon profil — COFINANCE CI</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="profile">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-brand"><div class="sidebar-logo-mark">CI</div><div class="sidebar-brand-text"><div class="sidebar-brand-name">COFINANCE CI</div><div class="sidebar-brand-tag">FINTECH</div></div></div>
+    <button class="sidebar-close" onclick="Sidebar.close()">×</button>
+  </div>
+  <div class="sidebar-user"><div class="sidebar-avatar"></div><div class="sidebar-user-info"><div class="sidebar-user-name">—</div><div class="sidebar-user-role">—</div></div></div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <a href="client-dashboard.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+    <a href="credits.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Mes crédits</a>
+    <a href="repayments.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Remboursements</a>
+    <a href="insurance.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Assurances</a>
+    <div class="nav-section-label">Communication</div>
+    <a href="notifications.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Notifications<span class="notif-count-badge nav-badge" style="display:none">0</span></a>
+    <a href="chat.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Support Chat</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="profile.html" class="nav-item active"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mon profil</a>
+    <button class="nav-item nav-logout" id="logoutBtn"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+  </div>
+</aside>
+
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-menu-btn" id="menuToggle"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div class="topbar-breadcrumb"><span>Mon profil</span></div>
+    </div>
+    <div class="topbar-right"><div class="topbar-avatar topbar-user-avatar">—</div></div>
+  </header>
+
+  <main class="app-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Mon profil</h1>
+        <p class="page-subtitle">Gérez vos informations personnelles</p>
+      </div>
+    </div>
+
+    <!-- Profile header -->
+    <div class="profile-header-card">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar-lg" id="profileAvatarDisplay">—</div>
+        <button class="avatar-change-btn" title="Changer la photo">📷</button>
+      </div>
+      <div class="profile-header-info">
+        <h2 class="profile-header-name" id="profileName">—</h2>
+        <div class="profile-header-meta">
+          <span class="badge badge-primary" id="profileRole" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3)">—</span>
+          <span style="font-size:.875rem;color:rgba(255,255,255,.7)" id="profileEmail">—</span>
+        </div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.55);margin-top:8px" id="profileSince">—</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-bar mb-6">
+      <button class="tab-btn active" onclick="showTab('info', this)">Informations</button>
+      <button class="tab-btn" onclick="showTab('security', this)">Sécurité</button>
+    </div>
+
+    <!-- Info form -->
+    <div id="tab-info">
+      <div class="card" style="max-width:700px">
+        <div class="card-header">
+          <div class="card-title">Informations personnelles</div>
+        </div>
+        <form id="profileForm">
+          <div class="card-body">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Prénom</label>
+                <input type="text" data-user-field="first_name" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nom</label>
+                <input type="text" data-user-field="last_name" class="form-control" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" data-user-field="email" class="form-control" disabled />
+              <div class="form-helper">L'adresse email ne peut pas être modifiée</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Téléphone</label>
+              <input type="tel" data-user-field="phone" class="form-control" placeholder="+225 07 00 00 00 00" />
+            </div>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Ville</label>
+                <input type="text" data-user-field="ville" class="form-control" placeholder="Abidjan" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Région</label>
+                <select data-user-field="region" class="form-control form-select">
+                  <option value="">— Sélectionner —</option>
+                  <option>Lagunes</option><option>Gbêkê</option><option>Poro</option>
+                  <option>Haut-Sassandra</option><option>Bas-Sassandra</option>
+                  <option>Tonkpi</option><option>Gôh</option><option>Lacs</option>
+                  <option>Agnéby-Tiassa</option><option>Sud-Comoé</option>
+                  <option>Indénié-Djuablin</option><option>Lôh-Djiboua</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Adresse complète</label>
+              <textarea data-user-field="adresse" class="form-control" rows="2" placeholder="Quartier, rue, numéro…"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date de naissance</label>
+              <input type="date" data-user-field="date_naissance" class="form-control" />
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Enregistrer les modifications
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Security tab -->
+    <div id="tab-security" style="display:none">
+      <div class="card" style="max-width:500px">
+        <div class="card-header"><div class="card-title">Changer le mot de passe</div></div>
+        <form id="passwordForm" onsubmit="changePassword(event)">
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Mot de passe actuel</label>
+              <input type="password" id="oldPassword" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nouveau mot de passe</label>
+              <input type="password" id="newPassword" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Confirmer le nouveau mot de passe</label>
+              <input type="password" id="confirmNewPassword" class="form-control" required />
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Changer le mot de passe</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ['info','security'].forEach(t => {
+    document.getElementById(`tab-${t}`).style.display = t === name ? '' : 'none';
+  });
+}
+
+async function changePassword(e) {
+  e.preventDefault();
+  const oldPw  = document.getElementById('oldPassword').value;
+  const newPw  = document.getElementById('newPassword').value;
+  const confPw = document.getElementById('confirmNewPassword').value;
+  if (newPw !== confPw) { Toast.show('Mots de passe différents', 'error'); return; }
+  try {
+    await Http.patch(API.profile, { old_password: oldPw, password: newPw });
+    Toast.show('Mot de passe mis à jour', 'success');
+    document.getElementById('passwordForm').reset();
+  } catch (err) {
+    Toast.show('Erreur', 'error', err.message);
+  }
+}
+window.changePassword = changePassword;
+window.showTab = showTab;
+</script>
+</body>
+</html>
