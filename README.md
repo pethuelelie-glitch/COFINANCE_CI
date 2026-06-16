@@ -215,3 +215,7 @@ cofinanceci/
 | `Conversation` | `client`, `agent`, `statut` (EN_COURS/FERMEE) |
 | `Message` | `conversation`, `auteur`, `contenu`, `lu`, `timestamp` |
 | `Notification` | `destinataire`, `message`, `lu`, créées automatiquement par signaux Django |
+
+
+
+REALISÉE PAR ELIE EHOUSSOU 
