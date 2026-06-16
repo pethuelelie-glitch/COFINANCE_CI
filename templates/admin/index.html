@@ -1,0 +1,535 @@
+{% extends "admin/base_site.html" %}
+{% load i18n log admin_extras %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+/* ═══════════════════════════════════════════
+   DASHBOARD COFINANCE CI
+═══════════════════════════════════════════ */
+
+/* ── Hero header ── */
+.dash-hero {
+  background: linear-gradient(135deg, #0f2040 0%, #1d4ed8 60%, #2563eb 100%);
+  border-radius: 18px;
+  padding: 32px 36px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dash-hero::before {
+  content: '';
+  position: absolute; top: -80px; right: -80px;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.dash-hero::after {
+  content: '';
+  position: absolute; bottom: -60px; left: 30%;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.05) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-left { position: relative; z-index: 1; }
+.hero-greeting {
+  font-size: .78rem; font-weight: 700;
+  color: rgba(255,255,255,.55);
+  text-transform: uppercase; letter-spacing: .12em;
+  margin-bottom: 8px;
+}
+.hero-title {
+  font-size: 1.7rem; font-weight: 900; color: #fff;
+  margin: 0 0 8px;
+  line-height: 1.15;
+}
+.hero-sub {
+  font-size: .87rem; color: rgba(255,255,255,.55);
+  margin: 0;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 100px;
+  padding: 7px 16px;
+  font-size: .75rem; font-weight: 700;
+  color: rgba(255,255,255,.9);
+  margin-top: 16px;
+}
+.hero-badge-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px rgba(74,222,128,.8);
+}
+.hero-right {
+  font-size: 4rem; opacity: .18;
+  position: relative; z-index: 1;
+  user-select: none;
+}
+
+/* ── Alertes ── */
+.dash-alert {
+  display: flex; align-items: center; gap: 14px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-left: 4px solid #f97316;
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  font-size: .85rem; color: #92400e;
+}
+.dash-alert-icon { font-size: 1.2rem; flex-shrink: 0; }
+.dash-alert strong { color: #7c2d12; }
+.dash-alert a { color: #c2410c; font-weight: 700; text-decoration: underline; }
+
+/* ── Grille KPIs ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+@media (max-width: 1200px) { .kpi-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 800px)  { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.kpi-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow .2s, transform .2s;
+}
+.kpi-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,.09);
+  transform: translateY(-2px);
+}
+.kpi-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 14px 14px 0 0;
+}
+.kpi-card.blue::before   { background: linear-gradient(90deg, #1d4ed8, #60a5fa); }
+.kpi-card.green::before  { background: linear-gradient(90deg, #059669, #34d399); }
+.kpi-card.orange::before { background: linear-gradient(90deg, #d97706, #fbbf24); }
+.kpi-card.red::before    { background: linear-gradient(90deg, #dc2626, #f87171); }
+.kpi-card.purple::before { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+
+.kpi-icon-wrap {
+  width: 42px; height: 42px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; margin-bottom: 14px;
+}
+.kpi-card.blue   .kpi-icon-wrap { background: #dbeafe; }
+.kpi-card.green  .kpi-icon-wrap { background: #d1fae5; }
+.kpi-card.orange .kpi-icon-wrap { background: #fef3c7; }
+.kpi-card.red    .kpi-icon-wrap { background: #fee2e2; }
+.kpi-card.purple .kpi-icon-wrap { background: #ede9fe; }
+
+.kpi-value {
+  font-size: 2rem; font-weight: 900;
+  color: #111827; line-height: 1;
+  margin-bottom: 4px;
+}
+.kpi-card.red .kpi-value   { color: #dc2626; }
+
+.kpi-label {
+  font-size: .75rem; font-weight: 600;
+  color: #6b7280; text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.kpi-sub {
+  font-size: .72rem; color: #9ca3af; margin-top: 6px;
+}
+
+/* ── Section titre ── */
+.section-title {
+  font-size: .7rem; font-weight: 800; color: #9ca3af;
+  text-transform: uppercase; letter-spacing: .12em;
+  margin: 0 0 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-title::after {
+  content: ''; flex: 1;
+  height: 1px; background: #f3f4f6;
+}
+
+/* ── Grille modules ── */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.app-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: box-shadow .2s, transform .2s;
+}
+.app-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+  transform: translateY(-2px);
+}
+
+.app-card-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid #f3f4f6;
+  display: flex; align-items: center; gap: 11px;
+}
+.app-icon {
+  width: 36px; height: 36px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.05rem; flex-shrink: 0;
+}
+.app-icon.credit       { background: #dbeafe; }
+.app-icon.insurance    { background: #d1fae5; }
+.app-icon.notification { background: #fef3c7; }
+.app-icon.chat         { background: #ede9fe; }
+.app-icon.account      { background: #f0f4ff; }
+.app-icon.repayements  { background: #fee2e2; }
+.app-icon.auth         { background: #e0f2fe; }
+.app-icon.default      { background: #f3f4f6; }
+
+.app-card-name {
+  font-size: .88rem; font-weight: 700; color: #111827; flex: 1;
+}
+.app-model-count {
+  font-size: .7rem; font-weight: 700;
+  background: #f3f4f6; color: #6b7280;
+  border-radius: 100px; padding: 2px 8px;
+}
+
+.model-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 8px 18px;
+  border-bottom: 1px solid #f9fafb;
+  transition: background .1s;
+}
+.model-row:last-child { border-bottom: none; }
+.model-row:hover { background: #f8faff; }
+
+.model-row-name {
+  font-size: .83rem; color: #1d4ed8;
+  text-decoration: none; font-weight: 500;
+  flex: 1; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.model-row-name:hover { text-decoration: underline; }
+.model-row-name.no-link { color: #6b7280; }
+
+.model-row-btns { display: flex; gap: 5px; flex-shrink: 0; margin-left: 8px; }
+.model-row-btns a {
+  font-size: .7rem; color: #6b7280;
+  text-decoration: none !important;
+  padding: 2px 8px;
+  border: 1px solid #e5e7eb; border-radius: 5px;
+  transition: all .1s;
+  white-space: nowrap; font-weight: 600;
+  background: transparent !important; box-shadow: none !important;
+  display: inline-flex !important; align-items: center !important;
+}
+.model-row-btns a:hover {
+  background: #f0f4ff !important;
+  color: #1d4ed8 !important;
+  border-color: #93c5fd !important;
+}
+
+/* ── Bas de page : 2 colonnes ── */
+.dash-bottom {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+@media (max-width: 900px) { .dash-bottom { grid-template-columns: 1fr; } }
+
+/* ── Activité récente ── */
+.panel-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.panel-card-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: .83rem; font-weight: 700; color: #111827;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.panel-card-header-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: #2563eb; margin-right: 8px;
+  display: inline-block;
+}
+.panel-card-body { padding: 4px 0; }
+
+.recent-item {
+  padding: 9px 20px;
+  display: flex; align-items: flex-start; gap: 11px;
+  border-bottom: 1px solid #f9fafb;
+  font-size: .82rem; color: #374151;
+}
+.recent-item:last-child { border-bottom: none; }
+.recent-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 4px;
+}
+.recent-obj { flex: 1; min-width: 0; }
+.recent-obj a { color: #1d4ed8 !important; font-weight: 600; text-decoration: none !important; }
+.recent-obj a:hover { text-decoration: underline !important; }
+.recent-action { font-size: .72rem; color: #9ca3af; }
+.recent-empty { padding: 20px; text-align: center; color: #9ca3af; font-size: .85rem; }
+
+/* ── Accès rapides ── */
+.quick-list { padding: 8px 0; }
+.quick-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 18px;
+  text-decoration: none !important;
+  border-bottom: 1px solid #f9fafb;
+  transition: background .1s;
+  color: #374151;
+}
+.quick-link:last-child { border-bottom: none; }
+.quick-link:hover { background: #f8faff; }
+.quick-link-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; flex-shrink: 0;
+}
+.quick-link-text { flex: 1; }
+.quick-link-label { font-size: .83rem; font-weight: 600; color: #111827; display: block; }
+.quick-link-sub   { font-size: .72rem; color: #9ca3af; display: block; }
+.quick-link-arrow { font-size: .8rem; color: #d1d5db; }
+</style>
+{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block content %}
+{% get_admin_stats as s %}
+<div id="content-main">
+
+<!-- ══ HERO ══ -->
+<div class="dash-hero">
+  <div class="hero-left">
+    <div class="hero-greeting">Bienvenue,</div>
+    <h1 class="hero-title">Tableau de bord</h1>
+    <p class="hero-sub">COFINANCE CI — Espace d'administration centralisé</p>
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Système opérationnel
+    </div>
+  </div>
+  <div class="hero-right">🏦</div>
+</div>
+
+<!-- ══ ALERTE retards ══ -->
+{% if s.echeances_retard > 0 %}
+<div class="dash-alert">
+  <span class="dash-alert-icon">⚠️</span>
+  <div>
+    <strong>{{ s.echeances_retard }} échéance{{ s.echeances_retard|pluralize }} en retard</strong>
+    — Des remboursements nécessitent une attention immédiate.
+    <a href="{% url 'admin:credit_repaymentschedule_changelist' %}?statut__exact=EN_RETARD">
+      Voir les échéances →
+    </a>
+  </div>
+</div>
+{% endif %}
+
+<!-- ══ KPIs ══ -->
+<div class="section-title">Statistiques clés</div>
+<div class="kpi-grid">
+
+  <div class="kpi-card blue">
+    <div class="kpi-icon-wrap">👥</div>
+    <div class="kpi-value">{{ s.nb_clients }}</div>
+    <div class="kpi-label">Clients</div>
+    <div class="kpi-sub">{{ s.nb_agents }} agent{{ s.nb_agents|pluralize }}</div>
+  </div>
+
+  <div class="kpi-card orange">
+    <div class="kpi-icon-wrap">⏳</div>
+    <div class="kpi-value">{{ s.credits_en_attente }}</div>
+    <div class="kpi-label">Crédits en attente</div>
+    <div class="kpi-sub">À traiter</div>
+  </div>
+
+  <div class="kpi-card green">
+    <div class="kpi-icon-wrap">💳</div>
+    <div class="kpi-value">{{ s.credits_actifs }}</div>
+    <div class="kpi-label">Crédits actifs</div>
+    <div class="kpi-sub">{{ s.credits_total }} au total</div>
+  </div>
+
+  <div class="kpi-card {% if s.echeances_retard > 0 %}red{% else %}green{% endif %}">
+    <div class="kpi-icon-wrap">{% if s.echeances_retard > 0 %}⚠️{% else %}✅{% endif %}</div>
+    <div class="kpi-value">{{ s.echeances_retard }}</div>
+    <div class="kpi-label">Retards</div>
+    <div class="kpi-sub">{{ s.echeances_pending }} à venir</div>
+  </div>
+
+  <div class="kpi-card purple">
+    <div class="kpi-icon-wrap">🛡️</div>
+    <div class="kpi-value">{{ s.polices_actives }}</div>
+    <div class="kpi-label">Polices actives</div>
+    <div class="kpi-sub">{{ s.convs_ouvertes }} conv. ouvertes</div>
+  </div>
+
+</div>
+
+<!-- ══ MODULES ══ -->
+<div class="section-title">Modules</div>
+<div class="modules-grid">
+  {% for app in app_list %}
+  <div class="app-card">
+    <div class="app-card-header">
+      <div class="app-icon {% if app.app_label == 'credit' %}credit
+        {% elif app.app_label == 'insurance' %}insurance
+        {% elif app.app_label == 'notification' %}notification
+        {% elif app.app_label == 'chat' %}chat
+        {% elif app.app_label == 'account' %}account
+        {% elif app.app_label == 'repayements' %}repayements
+        {% elif app.app_label == 'token_blacklist' or app.app_label == 'auth' %}auth
+        {% else %}default{% endif %}">
+        {% if app.app_label == 'credit' %}💳
+        {% elif app.app_label == 'insurance' %}🛡️
+        {% elif app.app_label == 'notification' %}🔔
+        {% elif app.app_label == 'chat' %}💬
+        {% elif app.app_label == 'account' %}👤
+        {% elif app.app_label == 'repayements' %}💰
+        {% elif app.app_label == 'token_blacklist' or app.app_label == 'authtoken' %}🔑
+        {% elif app.app_label == 'auth' %}🔐
+        {% else %}⚙️{% endif %}
+      </div>
+      <span class="app-card-name">{{ app.name }}</span>
+      <span class="app-model-count">{{ app.models|length }}</span>
+    </div>
+    {% for model in app.models %}
+    <div class="model-row">
+      {% if model.admin_url %}
+        <a href="{{ model.admin_url }}" class="model-row-name">{{ model.name }}</a>
+      {% else %}
+        <span class="model-row-name no-link">{{ model.name }}</span>
+      {% endif %}
+      <div class="model-row-btns">
+        {% if model.admin_url %}<a href="{{ model.admin_url }}">Voir</a>{% endif %}
+        {% if model.add_url %}<a href="{{ model.add_url }}">+ Ajouter</a>{% endif %}
+      </div>
+    </div>
+    {% empty %}
+      <div style="padding:12px 18px;font-size:.82rem;color:#9ca3af;">Aucun modèle.</div>
+    {% endfor %}
+  </div>
+  {% empty %}
+    <p style="color:#6b7280;font-size:.9rem;grid-column:1/-1">Aucun modèle accessible.</p>
+  {% endfor %}
+</div>
+
+<!-- ══ BAS : activité + raccourcis ══ -->
+<div class="dash-bottom">
+
+  <!-- Activité récente -->
+  <div class="panel-card">
+    <div class="panel-card-header">
+      <span><span class="panel-card-header-dot"></span>Activité récente</span>
+    </div>
+    <div class="panel-card-body">
+      {% get_admin_log 12 as admin_log for_user user %}
+      {% if admin_log %}
+        {% for entry in admin_log %}
+        <div class="recent-item">
+          <div class="recent-dot" style="background:{% if entry.is_addition %}#10b981{% elif entry.is_change %}#2563eb{% else %}#ef4444{% endif %}"></div>
+          <div class="recent-obj">
+            {% if entry.is_deletion %}
+              <span style="font-weight:600">{{ entry.object_repr }}</span>
+            {% else %}
+              <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+            {% endif %}
+            <div class="recent-action">
+              {% if entry.is_addition %}Ajouté{% elif entry.is_change %}Modifié{% else %}Supprimé{% endif %}
+              — {{ entry.content_type.name }}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="recent-empty">Aucune action récente.</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Accès rapides -->
+  <div class="panel-card">
+    <div class="panel-card-header">
+      <span><span class="panel-card-header-dot" style="background:#10b981"></span>Accès rapides</span>
+    </div>
+    <div class="quick-list">
+      <a class="quick-link" href="{% url 'admin:account_customuser_add' %}">
+        <div class="quick-link-icon" style="background:#dbeafe">👤</div>
+        <div class="quick-link-text">
+          <span class="quick-link-label">Nouvel utilisateur</span>
+          <span class="quick-link-sub">Créer un client ou agent</span>
+        </div>
+        <span class="quick-link-arrow">›</span>
+      </a>
+      <a class="quick-link" href="{% url 'admin:credit_creditrequest_changelist' %}?statut__exact=SOUMISE">
+        <div class="quick-link-icon" style="background:#fef3c7">⏳</div>
+        <div class="quick-link-text">
+          <span class="quick-link-label">Crédits à traiter</span>
+          <span class="quick-link-sub">{{ s.credits_en_attente }} en attente</span>
+        </div>
+        <span class="quick-link-arrow">›</span>
+      </a>
+      <a class="quick-link" href="{% url 'admin:credit_repaymentschedule_changelist' %}?statut__exact=EN_RETARD">
+        <div class="quick-link-icon" style="background:#fee2e2">⚠️</div>
+        <div class="quick-link-text">
+          <span class="quick-link-label">Échéances en retard</span>
+          <span class="quick-link-sub">{{ s.echeances_retard }} retard{{ s.echeances_retard|pluralize }}</span>
+        </div>
+        <span class="quick-link-arrow">›</span>
+      </a>
+      <a class="quick-link" href="{% url 'admin:insurance_insurancepolicy_changelist' %}">
+        <div class="quick-link-icon" style="background:#d1fae5">🛡️</div>
+        <div class="quick-link-text">
+          <span class="quick-link-label">Polices assurance</span>
+          <span class="quick-link-sub">{{ s.polices_actives }} active{{ s.polices_actives|pluralize }}</span>
+        </div>
+        <span class="quick-link-arrow">›</span>
+      </a>
+      <a class="quick-link" href="{% url 'admin:chat_conversation_changelist' %}">
+        <div class="quick-link-icon" style="background:#ede9fe">💬</div>
+        <div class="quick-link-text">
+          <span class="quick-link-label">Support chat</span>
+          <span class="quick-link-sub">{{ s.convs_ouvertes }} conversation{{ s.convs_ouvertes|pluralize }} ouverte{{ s.convs_ouvertes|pluralize }}</span>
+        </div>
+        <span class="quick-link-arrow">›</span>
+      </a>
+      <a class="quick-link" href="{% url 'admin:notification_notification_changelist' %}?lu__exact=0">
+        <div class="quick-link-icon" style="background:#fef3c7">🔔</div>
+        <div class="quick-link-text">
+          <span class="quick-link-label">Notifications</span>
+          <span class="quick-link-sub">{{ s.notifs_non_lues }} non lue{{ s.notifs_non_lues|pluralize }}</span>
+        </div>
+        <span class="quick-link-arrow">›</span>
+      </a>
+    </div>
+  </div>
+
+</div>{# fin dash-bottom #}
+</div>{# fin content-main #}
+{% endblock %}

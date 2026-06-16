@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connexion — COFINANCE CI Administration</title>
+  {% load i18n %}
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      background: #f0f4ff;
+    }
+
+    /* ── Panneau gauche ── */
+    .panel-left {
+      width: 44%;
+      background: linear-gradient(155deg, #070e1d 0%, #0a1628 55%, #0f2040 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    .panel-left::before {
+      content: '';
+      position: absolute;
+      top: -140px; right: -140px;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37,99,235,.22) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .panel-left::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 360px; height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(29,78,216,.15) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 48px;
+      position: relative; z-index: 1;
+    }
+    .brand-mark {
+      width: 48px; height: 48px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1rem; color: #fff;
+      letter-spacing: -.5px; flex-shrink: 0;
+      box-shadow: 0 4px 18px rgba(37,99,235,.45);
+    }
+    .brand-name { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: .04em; line-height: 1.1; }
+    .brand-sub  { font-size: .62rem; color: rgba(255,255,255,.4); letter-spacing: .14em; text-transform: uppercase; margin-top: 3px; }
+
+    .left-title {
+      font-size: 2.1rem; font-weight: 800; color: #fff;
+      line-height: 1.2; margin-bottom: 14px;
+      position: relative; z-index: 1;
+    }
+    .left-title span {
+      background: linear-gradient(90deg, #60a5fa, #93c5fd);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .left-desc {
+      font-size: .9rem; color: rgba(255,255,255,.48);
+      line-height: 1.75; margin-bottom: 44px;
+      position: relative; z-index: 1;
+    }
+
+    .features { display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1; }
+    .feature {
+      display: flex; align-items: center; gap: 14px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 12px;
+      padding: 14px 18px;
+    }
+    .feature-icon {
+      font-size: 1.2rem; flex-shrink: 0;
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,.07);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .feature-text { font-size: .83rem; color: rgba(255,255,255,.65); line-height: 1.4; }
+    .feature-title { font-weight: 700; color: rgba(255,255,255,.88); display: block; margin-bottom: 2px; }
+
+    /* ── Panneau droit ── */
+    .panel-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px;
+    }
+
+    .form-card {
+      width: 100%; max-width: 420px;
+      background: #fff;
+      border-radius: 22px;
+      padding: 44px 40px;
+      box-shadow: 0 4px 6px rgba(0,0,0,.03), 0 20px 50px rgba(0,0,0,.09);
+    }
+
+    .form-logo {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: .85rem; color: #fff;
+      margin-bottom: 20px;
+    }
+    .form-title { font-size: 1.55rem; font-weight: 800; color: #111827; margin-bottom: 6px; }
+    .form-sub   { font-size: .85rem; color: #6b7280; margin-bottom: 28px; line-height: 1.5; }
+
+    /* Erreurs */
+    .error-box {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .error-box-icon { font-size: .9rem; flex-shrink: 0; margin-top: 1px; }
+    .error-box-body { flex: 1; }
+    .error-box-title { font-size: .83rem; font-weight: 700; color: #991b1b; margin-bottom: 2px; }
+    .error-box-list  { font-size: .8rem; color: #b91c1c; list-style: none; padding: 0; margin: 0; }
+
+    /* Champs */
+    .form-group { margin-bottom: 18px; }
+    .form-label {
+      display: block; font-size: .8rem; font-weight: 600;
+      color: #374151; margin-bottom: 7px; letter-spacing: .01em;
+    }
+    .input-wrap { position: relative; }
+    .form-input {
+      width: 100%; padding: 11px 14px;
+      border: 1.5px solid #e5e7eb; border-radius: 10px;
+      font-size: .9rem; color: #111827; outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      background: #fff; font-family: inherit;
+    }
+    .form-input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+    }
+    /* Bouton afficher/masquer mot de passe */
+    .toggle-pw {
+      position: absolute; right: 12px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: #9ca3af; padding: 4px;
+      font-size: .85rem; line-height: 1;
+      transition: color .15s;
+    }
+    .toggle-pw:hover { color: #374151; }
+    #id_password { padding-right: 40px; }
+
+    /* Bouton submit */
+    .btn-submit {
+      width: 100%; padding: 13px;
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      color: #fff; border: none; border-radius: 10px;
+      font-size: .95rem; font-weight: 700; cursor: pointer;
+      margin-top: 6px;
+      transition: opacity .15s, transform .12s, box-shadow .15s;
+      letter-spacing: .02em;
+      box-shadow: 0 4px 14px rgba(37,99,235,.35);
+      font-family: inherit;
+    }
+    .btn-submit:hover { opacity: .92; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(37,99,235,.4); }
+    .btn-submit:active { transform: translateY(0); }
+
+    .form-footer {
+      text-align: center; margin-top: 22px;
+      font-size: .76rem; color: #9ca3af;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 800px) {
+      .panel-left { display: none; }
+      body { justify-content: center; align-items: center; }
+      .panel-right { padding: 24px 16px; }
+      .form-card { padding: 32px 24px; border-radius: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Panneau gauche -->
+<div class="panel-left">
+  <div class="brand">
+    <div class="brand-mark">CI</div>
+    <div>
+      <div class="brand-name">COFINANCE CI</div>
+      <div class="brand-sub">Microfinance Digitale</div>
+    </div>
+  </div>
+
+  <h1 class="left-title">
+    Administration<br>
+    <span>sécurisée</span> de<br>
+    votre plateforme
+  </h1>
+  <p class="left-desc">
+    Gérez les crédits, assurances, remboursements et le support
+    client depuis un seul espace unifié et sécurisé.
+  </p>
+
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">💳</div>
+      <div class="feature-text">
+        <span class="feature-title">Crédits & remboursements</span>
+        Suivi des demandes, approbations et échéanciers
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-text">
+        <span class="feature-title">Assurances</span>
+        Gestion des polices et produits d'assurance
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">💬</div>
+      <div class="feature-text">
+        <span class="feature-title">Support temps réel</span>
+        Chat WebSocket avec les clients
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Panneau droit -->
+<div class="panel-right">
+  <div class="form-card">
+    <div class="form-logo">CI</div>
+    <div class="form-title">Connexion</div>
+    <div class="form-sub">Espace réservé aux administrateurs et agents COFINANCE CI.</div>
+
+    {% if form.errors %}
+    <div class="error-box">
+      <span class="error-box-icon">⚠️</span>
+      <div class="error-box-body">
+        <div class="error-box-title">Connexion échouée</div>
+        <ul class="error-box-list">
+          {% for field in form %}
+            {% for error in field.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+          {% if not form.errors %}
+            <li>Identifiants incorrects. Veuillez réessayer.</li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+
+    <form method="post" action="{{ request.path }}" autocomplete="on">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+
+      <div class="form-group">
+        <label class="form-label" for="id_username">Adresse email</label>
+        <input
+          class="form-input"
+          type="email"
+          id="id_username"
+          name="username"
+          autofocus
+          autocomplete="email"
+          placeholder="admin@cofinanceci.ci"
+          value="{{ form.username.value|default:'' }}"
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="id_password">Mot de passe</label>
+        <div class="input-wrap">
+          <input
+            class="form-input"
+            type="password"
+            id="id_password"
+            name="password"
+            autocomplete="current-password"
+            placeholder="••••••••"
+          >
+          <button type="button" class="toggle-pw" onclick="togglePw(this)" aria-label="Afficher/masquer">
+            👁
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">Se connecter</button>
+    </form>
+
+    <div class="form-footer">
+      COFINANCE CI &mdash; Plateforme agréée BCEAO
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePw(btn) {
+  const inp = document.getElementById('id_password');
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  btn.textContent = show ? '🙈' : '👁';
+}
+</script>
+</body>
+</html>

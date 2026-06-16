@@ -50,3 +50,77 @@ class Payment(models.Model):
         if self.montant_paye >= total_du:
             self.echeance.statut = RepaymentSchedule.Status.PAYEE
             self.echeance.save()
+
+
+class PaymentRequest(models.Model):
+    """Demande de paiement initiée par le client, validée ou rejetée par l'agent."""
+
+    class Status(models.TextChoices):
+        EN_ATTENTE = 'EN_ATTENTE', 'En attente'
+        VALIDEE    = 'VALIDEE',    'Validée'
+        REJETEE    = 'REJETEE',    'Rejetée'
+
+    class ModePayment(models.TextChoices):
+        MOBILE_MONEY = 'MOBILE_MONEY', 'Mobile Money (MTN / Orange / Wave)'
+        ESPECES      = 'ESPECES',      'Espèces en agence'
+        VIREMENT     = 'VIREMENT',     'Virement bancaire'
+
+    echeance = models.ForeignKey(
+        RepaymentSchedule,
+        on_delete=models.CASCADE,
+        related_name='payment_requests',
+        verbose_name='Échéance concernée',
+    )
+    client = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='payment_requests',
+        limit_choices_to={'role': 'CLIENT'},
+        verbose_name='Client',
+    )
+    montant = models.IntegerField(verbose_name='Montant envoyé (FCFA)')
+    mode_paiement = models.CharField(
+        max_length=20,
+        choices=ModePayment.choices,
+        verbose_name='Mode de paiement',
+    )
+    reference_transaction = models.CharField(
+        max_length=120,
+        blank=True,
+        verbose_name='Référence / ID transaction',
+    )
+    statut = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.EN_ATTENTE,
+        verbose_name='Statut',
+    )
+    note_client = models.TextField(blank=True, verbose_name='Note du client')
+    note_agent  = models.TextField(blank=True, verbose_name='Note de l\'agent')
+    agent_validateur = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='validated_payment_requests',
+        limit_choices_to={'role__in': ['AGENT', 'ADMIN']},
+        verbose_name='Agent validateur',
+    )
+    payment = models.OneToOneField(
+        Payment,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='source_request',
+        verbose_name='Paiement créé',
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Demande de paiement'
+        verbose_name_plural = 'Demandes de paiement'
+
+    def __str__(self):
+        return f"Demande #{self.id} — {self.montant} FCFA — {self.get_statut_display()}"
