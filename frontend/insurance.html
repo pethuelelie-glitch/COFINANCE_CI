@@ -6,7 +6,9 @@
   <title>Assurances — COFINANCE CI</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
+  <link rel="stylesheet" href="assets/css/insurance.css" />
 </head>
 <body data-page="insurance">
 
@@ -89,42 +91,7 @@
   </div>
 </div>
 
-<script src="assets/js/app.js"></script>
-<script>
-let subscribeProductId = null;
-
-function showInsTab(tab, btn) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tab-polices').style.display   = tab === 'polices'   ? '' : 'none';
-  document.getElementById('tab-catalogue').style.display = tab === 'catalogue' ? '' : 'none';
-}
-
-function openSubscribeModal(productId, productName) {
-  subscribeProductId = productId;
-  document.getElementById('subscribeProductName').textContent = productName;
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('subscribeStartDate').value = today;
-  Modal.open('subscribeModal');
-}
-
-async function confirmSubscribe() {
-  const start = document.getElementById('subscribeStartDate').value;
-  const end   = document.getElementById('subscribeEndDate').value;
-  if (!start || !end) { Toast.show('Dates requises', 'error'); return; }
-  try {
-    await Http.post(API.insuranceSubscribe, { produit: subscribeProductId, date_debut: start, date_fin: end });
-    Modal.close('subscribeModal');
-    Toast.show('Souscription réussie !', 'success');
-    InsurancePage.init();
-  } catch (err) {
-    Toast.show('Erreur', 'error', err.message);
-  }
-}
-
-window.showInsTab = showInsTab;
-window.openSubscribeModal = openSubscribeModal;
-window.confirmSubscribe = confirmSubscribe;
-</script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/insurance.js"></script>
 </body>
 </html>

@@ -6,7 +6,8 @@
   <title>COFINANCE CI — Votre Partenaire Financier de Confiance</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/landing.css" />
 </head>
 <body class="landing-page">
 
@@ -303,5 +304,10 @@
   </div>
 </footer>
 
+<script>
+window.addEventListener('scroll', function() {
+  document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+</script>
 </body>
 </html>

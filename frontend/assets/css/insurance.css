@@ -1,0 +1,55 @@
+/* ═══════════════════════════════════════════════════════════════
+   COFINANCE CI — Insurance Styles
+   ═══════════════════════════════════════════════════════════════ */
+
+.insurance-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+  gap:20px;
+}
+
+.insurance-card {
+  background:var(--bg-card);
+  border-radius:var(--r-lg);
+  border:1px solid var(--border);
+  box-shadow:var(--sh-sm);
+  overflow:hidden;
+  transition:transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.insurance-card:hover {
+  transform:translateY(-3px);
+  box-shadow:var(--sh-md);
+}
+
+.insurance-card-header {
+  padding:20px 20px 16px;
+  border-bottom:1px solid var(--border);
+}
+.insurance-card-icon {
+  width:48px; height:48px;
+  border-radius:var(--r-md);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.5rem; margin-bottom:12px;
+}
+.insurance-card-name { font-size:1rem; font-weight:700; color:var(--t-primary); margin-bottom:4px; }
+.insurance-card-desc { font-size:.8rem; color:var(--t-muted); line-height:1.5; }
+
+.insurance-card-body { padding:16px 20px; }
+.insurance-price {
+  font-size:1.6rem; font-weight:800; color:var(--c-primary); letter-spacing:-.03em; line-height:1;
+}
+.insurance-price-label { font-size:.75rem; color:var(--t-muted); font-weight:400; }
+.insurance-price-period { font-size:.8rem; color:var(--t-muted); margin-top:2px; }
+
+.insurance-features { margin:14px 0; display:flex; flex-direction:column; gap:7px; }
+.insurance-feature {
+  display:flex; align-items:center; gap:8px;
+  font-size:.8rem; color:var(--t-second);
+}
+.insurance-feature-icon { color:var(--c-success); font-size:.85rem; flex-shrink:0; }
+
+.insurance-card-footer {
+  padding:14px 20px;
+  border-top:1px solid var(--border);
+  background:#FAFBFF;
+}

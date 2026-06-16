@@ -1,0 +1,139 @@
+/* ═══════════════════════════════════════════════════════════════
+   COFINANCE CI — Auth Pages Styles (login, register)
+   ═══════════════════════════════════════════════════════════════ */
+
+.auth-page {
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:var(--bg-card);
+}
+
+/* ─── Left Panel ─────────────────────────────────────────────── */
+.auth-panel-left {
+  background:linear-gradient(160deg, #070E1D 0%, #0A1628 40%, #112240 100%);
+  display:flex; flex-direction:column;
+  justify-content:space-between;
+  padding:44px 48px;
+  position:relative; overflow:hidden;
+}
+.auth-panel-left::before {
+  content:''; position:absolute;
+  top:-120px; right:-120px;
+  width:380px; height:380px; border-radius:50%;
+  background:rgba(29,78,216,.18); pointer-events:none;
+}
+.auth-panel-left::after {
+  content:''; position:absolute;
+  bottom:-80px; left:-80px;
+  width:260px; height:260px; border-radius:50%;
+  background:rgba(29,78,216,.10); pointer-events:none;
+}
+
+/* Brand row (top of left panel) */
+.auth-brand { display:flex; align-items:center; gap:12px; position:relative; z-index:1; }
+
+.auth-brand-mark, .auth-logo {
+  width:44px; height:44px; border-radius:10px; flex-shrink:0;
+  background:linear-gradient(135deg,var(--c-primary),var(--c-primary-hover));
+  display:flex; align-items:center; justify-content:center;
+  font-weight:900; font-size:.85rem; color:#fff; letter-spacing:-.5px;
+  box-shadow:0 4px 16px rgba(29,78,216,.4);
+}
+.auth-brand-name { font-size:.9rem; font-weight:800; color:#fff; letter-spacing:.06em; }
+.auth-brand-tag  { font-size:.65rem; color:rgba(255,255,255,.5); letter-spacing:.12em; margin-top:2px; }
+
+/* Body (center of left panel) */
+.auth-body { position:relative; z-index:1; flex:1; display:flex; flex-direction:column; justify-content:center; padding:40px 0; }
+
+.auth-tagline {
+  font-size:2rem; font-weight:800; color:#fff;
+  line-height:1.25; letter-spacing:-.04em; margin-bottom:14px;
+}
+.auth-tagline em { color:var(--c-primary-hover); font-style:normal; }
+
+.auth-desc {
+  font-size:.9rem; color:rgba(255,255,255,.6); line-height:1.75; max-width:360px; margin-bottom:32px;
+}
+
+/* Feature list */
+.auth-features { display:flex; flex-direction:column; gap:16px; }
+.auth-feature  { display:flex; align-items:flex-start; gap:14px; }
+.auth-feature-icon {
+  width:40px; height:40px; border-radius:10px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+}
+.auth-feature-title { font-size:.875rem; font-weight:700; color:#fff; margin-bottom:3px; }
+.auth-feature-text  { font-size:.78rem; color:rgba(255,255,255,.5); line-height:1.5; }
+
+/* Stats row (bottom of left panel) */
+.auth-stats {
+  display:flex; gap:28px; flex-wrap:wrap; position:relative; z-index:1;
+  padding-top:28px; border-top:1px solid rgba(255,255,255,.1);
+}
+.auth-stat-val, .auth-stat-value {
+  font-size:1.5rem; font-weight:800; color:#fff; letter-spacing:-.04em;
+}
+.auth-stat-lbl, .auth-stat-label {
+  font-size:.72rem; color:rgba(255,255,255,.5); margin-top:2px;
+}
+
+/* ─── Right Panel ────────────────────────────────────────────── */
+.auth-panel-right {
+  display:flex; flex-direction:column; justify-content:center;
+  padding:44px 52px; background:var(--bg-card);
+}
+
+/* Form box */
+.auth-form-box, .auth-form-container {
+  max-width:420px; width:100%; margin:0 auto;
+}
+
+.auth-form-title {
+  font-size:1.6rem; font-weight:800; color:var(--t-primary); letter-spacing:-.03em; margin-bottom:6px;
+}
+.auth-form-subtitle, .auth-form-sub {
+  font-size:.875rem; color:var(--t-muted); margin-bottom:28px;
+}
+
+.auth-form-wrapper { }
+.auth-divider { height:1px; background:var(--border); margin:24px 0; }
+
+/* ─── Quick Login Grid ───────────────────────────────────────── */
+.quick-login-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:20px; }
+.quick-login-btn {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:4px; padding:10px 6px; border-radius:var(--r-sm);
+  background:var(--bg-hover); border:1.5px solid var(--border);
+  cursor:pointer; transition:all var(--dur) var(--ease);
+  font-size:.72rem; font-weight:600; color:var(--t-second); text-align:center;
+}
+.quick-login-btn:hover { border-color:var(--c-primary); background:var(--c-primary-light); color:var(--c-primary); }
+.quick-login-icon { font-size:1.1rem; }
+
+/* ─── Toggle Password ────────────────────────────────────────── */
+.input-with-toggle { position:relative; }
+.input-with-toggle .form-control { padding-right:44px; }
+.toggle-password {
+  position:absolute; right:12px; top:50%; transform:translateY(-50%);
+  background:none; border:none; cursor:pointer;
+  color:var(--t-light); padding:2px;
+  display:flex; align-items:center; justify-content:center;
+  transition:color var(--dur) var(--ease);
+}
+.toggle-password:hover { color:var(--t-second); }
+
+/* ─── Auth Footer ────────────────────────────────────────────── */
+.auth-footer {
+  margin-top:24px; text-align:center;
+  font-size:.82rem; color:var(--t-muted);
+}
+.auth-footer a { color:var(--c-primary); font-weight:600; }
+.auth-footer a:hover { text-decoration:underline; }
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width:900px) {
+  .auth-page { grid-template-columns:1fr; }
+  .auth-panel-left { display:none; }
+  .auth-panel-right { padding:48px 24px; }
+}

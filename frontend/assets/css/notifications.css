@@ -1,0 +1,39 @@
+/* ═══════════════════════════════════════════════════════════════
+   COFINANCE CI — Notifications Styles
+   ═══════════════════════════════════════════════════════════════ */
+
+.notif-list { display:flex; flex-direction:column; }
+
+.notif-item {
+  display:flex; align-items:flex-start; gap:14px;
+  padding:16px 20px;
+  border-bottom:1px solid var(--border);
+  transition:background var(--dur) var(--ease);
+  cursor:pointer;
+}
+.notif-item:last-child { border-bottom:none; }
+.notif-item:hover { background:var(--bg-hover); }
+.notif-item.unread { background:var(--c-primary-light); }
+.notif-item.unread:hover { background:#dbeafe; }
+
+.notif-icon {
+  width:40px; height:40px; border-radius:var(--r-full);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem; flex-shrink:0;
+}
+.notif-icon-info    { background:var(--c-primary-light); }
+.notif-icon-success { background:var(--c-success-light); }
+.notif-icon-warning { background:var(--c-warning-light); }
+.notif-icon-danger  { background:var(--c-danger-light); }
+
+.notif-body { flex:1; min-width:0; }
+.notif-title { font-size:.875rem; font-weight:600; color:var(--t-primary); line-height:1.4; }
+.notif-item.unread .notif-title { font-weight:700; }
+.notif-message { font-size:.8rem; color:var(--t-muted); margin-top:3px; line-height:1.5; }
+.notif-time { font-size:.72rem; color:var(--t-light); margin-top:5px; }
+
+.notif-dot {
+  width:8px; height:8px; border-radius:50%; background:var(--c-primary);
+  flex-shrink:0; margin-top:6px;
+}
+.notif-item:not(.unread) .notif-dot { opacity:0; }

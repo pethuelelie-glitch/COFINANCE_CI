@@ -1,0 +1,156 @@
+/* ═══════════════════════════════════════════════════════════════
+   COFINANCE CI — Dashboard Styles
+   (stat-cards, kanban, timeline, echeance, step-progress)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── STAT CARDS ─────────────────────────────────────────────── */
+.stat-cards-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:24px;
+}
+
+.stat-card {
+  background:var(--bg-card);
+  border-radius:var(--r-lg);
+  padding:20px;
+  border:1px solid var(--border);
+  box-shadow:var(--sh-sm);
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  transition:transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.stat-card:hover {
+  transform:translateY(-2px);
+  box-shadow:var(--sh-md);
+}
+
+.stat-icon {
+  width:46px; height:46px;
+  border-radius:var(--r-md);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.3rem; flex-shrink:0;
+}
+.stat-icon-blue   { background:var(--c-primary-light); }
+.stat-icon-green  { background:var(--c-success-light); }
+.stat-icon-orange { background:var(--c-warning-light); }
+.stat-icon-violet { background:var(--c-violet-light); }
+.stat-icon-teal   { background:var(--c-teal-light); }
+.stat-icon-gold   { background:var(--c-gold-light); }
+.stat-icon-red    { background:var(--c-danger-light); }
+
+.stat-body { flex:1; min-width:0; }
+.stat-label { font-size:.75rem; font-weight:600; color:var(--t-muted); text-transform:uppercase; letter-spacing:.06em; }
+.stat-value { font-size:1.6rem; font-weight:800; color:var(--t-primary); letter-spacing:-.04em; line-height:1.2; margin:2px 0; }
+.stat-sub   { font-size:.75rem; color:var(--t-muted); }
+
+.stat-trend {
+  display:inline-flex; align-items:center; gap:3px;
+  font-size:.72rem; font-weight:600; border-radius:var(--r-full);
+  padding:2px 7px; margin-top:4px;
+}
+.trend-up   { background:var(--c-success-light); color:var(--c-success); }
+.trend-down { background:var(--c-danger-light);  color:var(--c-danger); }
+.trend-flat { background:var(--bg-hover);         color:var(--t-muted); }
+
+/* ─── KANBAN BOARD ───────────────────────────────────────────── */
+.kanban-board {
+  display:flex;
+  gap:16px;
+  overflow-x:auto;
+  padding-bottom:8px;
+  align-items:flex-start;
+}
+.kanban-board::-webkit-scrollbar { height:6px; }
+.kanban-board::-webkit-scrollbar-track { background:var(--bg-hover); border-radius:3px; }
+.kanban-board::-webkit-scrollbar-thumb { background:var(--border-md); border-radius:3px; }
+
+.kanban-col {
+  flex-shrink:0;
+  width:300px;
+  background:var(--bg-hover);
+  border-radius:var(--r-lg);
+  padding:14px;
+  border:1px solid var(--border);
+}
+.kanban-col-header {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:12px; padding:0 2px;
+}
+.kanban-col-title { font-size:.85rem; font-weight:700; color:var(--t-primary); }
+.kanban-col-count {
+  background:var(--bg-card); color:var(--t-muted);
+  font-size:.7rem; font-weight:700; padding:2px 8px;
+  border-radius:var(--r-full); border:1px solid var(--border);
+}
+.kanban-cards { display:flex; flex-direction:column; gap:10px; min-height:80px; }
+
+.kanban-card {
+  background:var(--bg-card); border-radius:var(--r-md);
+  padding:14px; border:1px solid var(--border); box-shadow:var(--sh-xs);
+  cursor:pointer; transition:all var(--dur) var(--ease);
+}
+.kanban-card:hover { box-shadow:var(--sh-md); border-color:var(--border-md); transform:translateY(-1px); }
+.kanban-card.dragging { opacity:.55; transform:scale(.98); }
+.kanban-card-over { border-color:var(--c-primary); box-shadow:0 0 0 2px var(--c-primary-glow); }
+
+.kanban-card-name   { font-size:.875rem; font-weight:600; color:var(--t-primary); margin-bottom:4px; }
+.kanban-card-amount { font-size:1rem; font-weight:800; color:var(--c-primary); margin-bottom:8px; }
+.kanban-card-meta   { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.kanban-card-date   { font-size:.72rem; color:var(--t-light); }
+
+/* ─── TIMELINE ───────────────────────────────────────────────── */
+.timeline { position:relative; padding-left:28px; }
+.timeline::before {
+  content:''; position:absolute; left:8px; top:0; bottom:0; width:2px;
+  background:var(--border); border-radius:1px;
+}
+.timeline-item { position:relative; margin-bottom:20px; }
+.timeline-dot {
+  position:absolute; left:-24px; top:4px;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--c-primary); border:2px solid var(--bg-card);
+  box-shadow:0 0 0 2px var(--c-primary);
+}
+.timeline-dot.success { background:var(--c-success); box-shadow:0 0 0 2px var(--c-success); }
+.timeline-dot.warning { background:var(--c-warning); box-shadow:0 0 0 2px var(--c-warning); }
+.timeline-dot.danger  { background:var(--c-danger);  box-shadow:0 0 0 2px var(--c-danger); }
+.timeline-dot.muted   { background:var(--t-light);   box-shadow:0 0 0 2px var(--t-light); }
+
+.timeline-time { font-size:.72rem; color:var(--t-light); margin-bottom:3px; }
+.timeline-title { font-size:.875rem; font-weight:600; color:var(--t-primary); line-height:1.4; }
+.timeline-sub   { font-size:.8rem; color:var(--t-muted); margin-top:2px; }
+
+/* ─── ECHEANCE ROWS ──────────────────────────────────────────── */
+.echeance-row {
+  display:flex; align-items:center; gap:12px;
+  padding:12px 0; border-bottom:1px solid var(--border);
+}
+.echeance-row:last-child { border-bottom:none; }
+.echeance-num {
+  width:28px; height:28px; border-radius:var(--r-full);
+  background:var(--c-primary-light); color:var(--c-primary);
+  font-size:.72rem; font-weight:700;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+
+/* ─── STEP PROGRESS ──────────────────────────────────────────── */
+.step-progress {
+  display:flex; align-items:center; gap:0; margin:20px 0;
+}
+.step-circle {
+  width:32px; height:32px; border-radius:var(--r-full);
+  background:var(--bg-hover); border:2px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.75rem; font-weight:700; color:var(--t-muted);
+  flex-shrink:0; transition:all var(--dur2) var(--ease);
+}
+.step-circle.done    { background:var(--c-success); border-color:var(--c-success); color:#fff; }
+.step-circle.active  { background:var(--c-primary); border-color:var(--c-primary); color:#fff; box-shadow:0 0 0 4px var(--c-primary-glow); }
+.step-line {
+  flex:1; height:2px; background:var(--border);
+  transition:background var(--dur2) var(--ease);
+}
+.step-line.done { background:var(--c-success); }

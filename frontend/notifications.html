@@ -6,7 +6,8 @@
   <title>Notifications — COFINANCE CI</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/notifications.css" />
 </head>
 <body data-page="notifications">
 
@@ -68,31 +69,7 @@
   </main>
 </div>
 
-<script src="assets/js/app.js"></script>
-<script>
-/* Filtre par onglet — agit sur le DOM déjà rendu */
-function filterNotifs(type, btn) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.notif-item').forEach(el => {
-    if (type === 'all') { el.style.display = ''; return; }
-    const isUnread = el.classList.contains('unread');
-    el.style.display = (type === 'unread' ? isUnread : !isUnread) ? '' : 'none';
-  });
-}
-
-async function markAllRead() {
-  try {
-    await Http.patch(API.notifReadAll, {});
-    await NotificationsPage.loadNotifications();
-    Toast.show('Toutes les notifications sont lues', 'success');
-  } catch (err) {
-    Toast.show('Erreur', 'error', err.message);
-  }
-}
-
-window.filterNotifs = filterNotifs;
-window.markAllRead  = markAllRead;
-</script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/notifications.js"></script>
 </body>
 </html>

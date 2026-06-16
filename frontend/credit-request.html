@@ -6,7 +6,8 @@
   <title>Demande de crédit — COFINANCE CI</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
 </head>
 <body data-page="credit-request">
 
@@ -186,33 +187,7 @@
   </main>
 </div>
 
-<script src="assets/js/app.js"></script>
-<script>
-function updateSimulator() {
-  const montant = parseFloat(document.getElementById('montant').value) || 0;
-  const duree = parseInt(document.getElementById('duree_mois').value) || 0;
-  const taux = parseFloat(document.getElementById('taux_interet').value) || 0;
-  const sim = document.getElementById('simulateur');
-  if (montant > 0 && duree > 0) {
-    sim.style.display = 'block';
-    const tauxM = (taux / 100) / 12;
-    let mensualite;
-    if (tauxM === 0) {
-      mensualite = montant / duree;
-    } else {
-      mensualite = montant * (tauxM * Math.pow(1 + tauxM, duree)) / (Math.pow(1 + tauxM, duree) - 1);
-    }
-    document.getElementById('sim-mensualite').textContent = Fmt.money(mensualite) + ' FCFA';
-    document.getElementById('sim-total').textContent = Fmt.money(mensualite * duree) + ' FCFA';
-  } else {
-    sim.style.display = 'none';
-  }
-}
-
-['montant','duree_mois','taux_interet'].forEach(id => {
-  document.getElementById(id)?.addEventListener('input', updateSimulator);
-  document.getElementById(id)?.addEventListener('change', updateSimulator);
-});
-</script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/credit-request.js"></script>
 </body>
 </html>

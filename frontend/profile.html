@@ -6,7 +6,8 @@
   <title>Mon profil — COFINANCE CI</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/profile.css" />
 </head>
 <body data-page="profile">
 
@@ -163,32 +164,7 @@
   </main>
 </div>
 
-<script src="assets/js/app.js"></script>
-<script>
-function showTab(name, btn) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  ['info','security'].forEach(t => {
-    document.getElementById(`tab-${t}`).style.display = t === name ? '' : 'none';
-  });
-}
-
-async function changePassword(e) {
-  e.preventDefault();
-  const oldPw  = document.getElementById('oldPassword').value;
-  const newPw  = document.getElementById('newPassword').value;
-  const confPw = document.getElementById('confirmNewPassword').value;
-  if (newPw !== confPw) { Toast.show('Mots de passe différents', 'error'); return; }
-  try {
-    await Http.patch(API.profile, { old_password: oldPw, password: newPw });
-    Toast.show('Mot de passe mis à jour', 'success');
-    document.getElementById('passwordForm').reset();
-  } catch (err) {
-    Toast.show('Erreur', 'error', err.message);
-  }
-}
-window.changePassword = changePassword;
-window.showTab = showTab;
-</script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/profile.js"></script>
 </body>
 </html>
