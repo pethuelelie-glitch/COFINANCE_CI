@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" fill="none">
+  <!-- Shield icon -->
+  <path d="M16 6l12 4.5V22c0 5.5-3.5 10.5-12 13.5C7.5 32.5 4 27.5 4 22V10.5L16 6z" fill="#0F766E"/>
+  <path d="M16 6l12 4.5V22c0 5.5-3.5 10.5-12 13.5" fill="#14B8A6" opacity="0.4"/>
+  <!-- CFA letters inside shield -->
+  <text x="16" y="23" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8" font-weight="700">CI</text>
+  <!-- Growth arrow overlay -->
+  <path d="M22 18l3-3 2 2 4-5" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- COFINANCE text -->
+  <text x="38" y="22" font-family="'Arial', sans-serif" font-size="15" font-weight="700" fill="#0F766E" letter-spacing="0.5">COFINANCE</text>
+  <!-- CI text -->
+  <text x="38" y="36" font-family="'Arial', sans-serif" font-size="11" font-weight="400" fill="#64748B" letter-spacing="3">CI</text>
+  <!-- Tagline dot separator -->
+  <circle cx="52" cy="33" r="1.5" fill="#F59E0B"/>
+  <!-- Tagline -->
+  <text x="57" y="36" font-family="'Arial', sans-serif" font-size="7" fill="#94A3B8" letter-spacing="1">MICROFINANCE</text>
+</svg>

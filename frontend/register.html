@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription — COFINANCE CI</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="register">
+
+<div class="auth-page">
+  <div class="auth-panel-left">
+    <div class="auth-brand">
+      <div class="auth-brand-mark">CI</div>
+      <div>
+        <div class="auth-brand-name">COFINANCE CI</div>
+        <div class="auth-brand-tag">FINTECH · CÔTE D'IVOIRE</div>
+      </div>
+    </div>
+    <div class="auth-body">
+      <h2 class="auth-tagline">Votre projet mérite le <em>meilleur financement</em></h2>
+      <p class="auth-desc">Créez votre compte en moins de 2 minutes et accédez à des crédits sur-mesure, des assurances adaptées et un suivi personnalisé.</p>
+      <div class="auth-features">
+        <div class="auth-feature">
+          <div class="auth-feature-icon" style="background:rgba(5,150,105,.2);color:#34d399">✓</div>
+          <div>
+            <div class="auth-feature-title">Inscription gratuite</div>
+            <div class="auth-feature-text">Aucun frais d'ouverture de compte</div>
+          </div>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon" style="background:rgba(29,78,216,.2);color:#93c5fd">⏱</div>
+          <div>
+            <div class="auth-feature-title">Traitement express</div>
+            <div class="auth-feature-text">Réponse à votre demande sous 48h</div>
+          </div>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon" style="background:rgba(180,83,9,.2);color:#fbbf24">🔒</div>
+          <div>
+            <div class="auth-feature-title">100% sécurisé</div>
+            <div class="auth-feature-text">Données protégées par chiffrement</div>
+          </div>
+        </div>
+      </div>
+      <div class="auth-stats">
+        <div><div class="auth-stat-val">&lt; 2 min</div><div class="auth-stat-lbl">Inscription</div></div>
+        <div><div class="auth-stat-val">48h</div><div class="auth-stat-lbl">Traitement</div></div>
+        <div><div class="auth-stat-val">0 FCFA</div><div class="auth-stat-lbl">Frais</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-panel-right" style="align-items:flex-start;padding-top:60px">
+    <div class="auth-form-box" style="max-width:500px">
+      <div class="auth-form-title">Créer un compte</div>
+      <div class="auth-form-subtitle">Rejoignez COFINANCE CI et accédez à vos services financiers</div>
+
+      <div class="auth-form-wrapper">
+        <form id="registerForm" onsubmit="handleRegister(event)" novalidate>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Prénom <span class="req">*</span></label>
+              <input type="text" id="regFirst" class="form-control" placeholder="Kouamé" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nom <span class="req">*</span></label>
+              <input type="text" id="regLast" class="form-control" placeholder="Attié" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Adresse email <span class="req">*</span></label>
+            <div class="input-with-icon">
+              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              <input type="email" id="regEmail" class="form-control" placeholder="kouame@example.ci" autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Téléphone</label>
+            <div class="input-with-icon">
+              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+              </svg>
+              <input type="tel" id="regPhone" class="form-control" placeholder="+225 07 00 00 00 00" />
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Mot de passe <span class="req">*</span></label>
+              <div class="input-with-icon input-with-toggle">
+                <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2"/>
+                  <path d="M7 11V7a5 5 0 0110 0v4"/>
+                </svg>
+                <input type="password" id="regPassword" class="form-control" placeholder="••••••••" autocomplete="new-password" />
+                <button type="button" class="toggle-password" onclick="togglePwd(this)" tabindex="-1">
+                  <svg class="eye-off" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                  <svg class="eye-on" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Confirmer <span class="req">*</span></label>
+              <div class="input-with-icon input-with-toggle">
+                <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2"/>
+                  <path d="M7 11V7a5 5 0 0110 0v4"/>
+                </svg>
+                <input type="password" id="regPassword2" class="form-control" placeholder="••••••••" autocomplete="new-password" />
+                <button type="button" class="toggle-password" onclick="togglePwd(this)" tabindex="-1">
+                  <svg class="eye-off" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                  <svg class="eye-on" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Date de naissance</label>
+            <input type="date" id="regDOB" class="form-control" />
+          </div>
+
+          <button type="submit" id="regBtn" class="btn btn-primary btn-lg" style="width:100%;margin-top:4px;font-size:1rem">
+            Créer mon compte gratuitement →
+          </button>
+
+          <div id="regError" style="display:none;margin-top:12px;padding:12px 14px;background:#FEE2E2;border:1px solid rgba(220,38,38,.25);border-radius:var(--r-sm);font-size:.84rem;color:#B91C1C;font-weight:500"></div>
+        </form>
+      </div>
+
+      <div class="auth-footer">
+        Déjà un compte ? <a href="login.html">Se connecter</a>
+      </div>
+      <div class="auth-footer" style="margin-top:8px">
+        <a href="index.html" style="color:var(--t-muted);font-size:.78rem">← Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+/* ── Redirection si déjà connecté ─────────────────────────── */
+(function() {
+  if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
+    window.location.href = (typeof APP_ROOT !== 'undefined' ? APP_ROOT : '') + 'client-dashboard.html';
+  }
+})();
+
+/* ── Handler d'inscription ─────────────────────────────────── */
+async function handleRegister(e) {
+  e.preventDefault();
+
+  const btn    = document.getElementById('regBtn');
+  const errEl  = document.getElementById('regError');
+  const first  = document.getElementById('regFirst').value.trim();
+  const last   = document.getElementById('regLast').value.trim();
+  const email  = document.getElementById('regEmail').value.trim();
+  const phone  = document.getElementById('regPhone').value.trim();
+  const pw     = document.getElementById('regPassword').value;
+  const pw2    = document.getElementById('regPassword2').value;
+  const dob    = document.getElementById('regDOB').value;
+
+  errEl.style.display = 'none';
+
+  /* Validation */
+  if (!first || !last || !email || !pw) {
+    errEl.textContent = 'Veuillez remplir tous les champs obligatoires (*)';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (pw !== pw2) {
+    errEl.textContent = 'Les mots de passe ne correspondent pas.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (pw.length < 8) {
+    errEl.textContent = 'Le mot de passe doit contenir au moins 8 caractères.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  /* Payload */
+  const payload = {
+    email,
+    first_name:       first,
+    last_name:        last,
+    password:         pw,
+    password_confirm: pw2,
+  };
+  if (phone) {
+    payload.phone = phone.startsWith('+') ? phone : '+225' + phone.replace(/\s/g, '');
+  }
+  if (dob) payload.date_naissance = dob;
+
+  /* État de chargement */
+  const origHtml = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px"></span>Création…';
+
+  try {
+    const res = await Http.post(API.register, payload);
+
+    if (!res || !res.tokens || !res.user) {
+      throw new Error('Réponse inattendue du serveur.');
+    }
+
+    Auth.save(res.tokens, res.user);
+    btn.innerHTML = '✓ Compte créé ! Redirection…';
+    btn.style.background = '#16a34a';
+
+    setTimeout(() => {
+      window.location.href = APP_ROOT + 'client-dashboard.html';
+    }, 600);
+
+  } catch (err) {
+    let msg = (err && err.message) ? err.message : 'Erreur lors de la création du compte.';
+    if (typeof msg === 'object') msg = JSON.stringify(msg);
+    if (msg.toLowerCase().includes('fetch') || msg.toLowerCase().includes('failed') || msg.toLowerCase().includes('network')) {
+      msg = 'Impossible de joindre le serveur. Vérifiez que Django tourne sur http://127.0.0.1:8000';
+    }
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = origHtml;
+    btn.style.background = '';
+  }
+}
+window.handleRegister = handleRegister;
+</script>
+</body>
+</html>

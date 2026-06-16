@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clients — COFINANCE CI</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="admin-clients">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-brand"><div class="sidebar-logo-mark">CI</div><div class="sidebar-brand-text"><div class="sidebar-brand-name">COFINANCE CI</div><div class="sidebar-brand-tag">ADMINISTRATION</div></div></div>
+    <button class="sidebar-close" onclick="Sidebar.close()">×</button>
+  </div>
+  <div class="sidebar-user"><div class="sidebar-avatar" style="background:linear-gradient(135deg,var(--c-danger),#f87171)"></div><div class="sidebar-user-info"><div class="sidebar-user-name">—</div><div class="sidebar-user-role">—</div></div></div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Administration</div>
+    <a href="admin-dashboard.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+    <a href="admin-clients.html" class="nav-item active"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Clients</a>
+    <a href="admin-agents.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>Agents</a>
+    <a href="admin-credits.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Crédits (Kanban)</a>
+    <a href="admin-insurances.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Assurances</a>
+    <a href="admin-support.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Support</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="profile.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mon profil</a>
+    <button class="nav-item nav-logout" id="logoutBtn"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+  </div>
+</aside>
+
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-menu-btn" id="menuToggle"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div class="topbar-breadcrumb">
+        <a href="admin-dashboard.html" class="breadcrumb-link">Admin</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>Clients</span>
+      </div>
+    </div>
+    <div class="topbar-right"><div class="topbar-avatar topbar-user-avatar">—</div></div>
+  </header>
+
+  <main class="app-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Gestion des clients</h1>
+        <p class="page-subtitle">Consultez et gérez tous les comptes clients</p>
+      </div>
+      <div id="clientsCount" style="display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--bg-card);border-radius:var(--r-sm);border:1px solid var(--border);font-size:.875rem;color:var(--t-muted)">
+        <div class="spinner spinner-sm"></div>
+        Chargement…
+      </div>
+    </div>
+
+    <!-- Search & filter -->
+    <div class="filter-bar mb-4">
+      <div class="input-with-icon" style="flex:1;max-width:360px">
+        <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="form-control" id="clientSearch" placeholder="Rechercher par nom, email, ville…" oninput="filterClients()" />
+      </div>
+      <select class="form-control form-select filter-select" id="regionFilter" onchange="filterClients()">
+        <option value="">Toutes les régions</option>
+        <option>Lagunes</option><option>Gbêkê</option><option>Poro</option>
+        <option>Haut-Sassandra</option><option>Bas-Sassandra</option>
+        <option>Tonkpi</option><option>Gôh</option><option>Lacs</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Ville</th>
+              <th>Région</th>
+              <th>Inscrit le</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="clientsTableBody">
+            <tr><td colspan="8" style="text-align:center;padding:40px"><div class="spinner" style="margin:0 auto"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal détail client -->
+<div class="modal-overlay" id="clientDetailModal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h3 class="modal-title" id="clientDetailTitle">Détail client</h3>
+      <button class="modal-close" onclick="Modal.close('clientDetailModal')">×</button>
+    </div>
+    <div class="modal-body" id="clientDetailBody">
+      <div class="spinner" style="margin:32px auto"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="Modal.close('clientDetailModal')">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+let allClients = [];
+
+AdminClients.init = async function() {
+  if (!Auth.requireLogin(['ADMIN', 'AGENT'])) return;
+  Sidebar.init();
+  try {
+    const data = await Http.get(API.clients);
+    allClients = data.results || data || [];
+    document.getElementById('clientsCount').textContent = `${allClients.length} client${allClients.length > 1 ? 's' : ''}`;
+    renderClients(allClients);
+  } catch {
+    allClients = [];
+    document.getElementById('clientsCount').textContent = '0 clients';
+    renderClients([]);
+  }
+};
+
+function renderClients(clients) {
+  const tb = document.getElementById('clientsTableBody');
+  const isAdmin = Auth.getUser()?.role === 'ADMIN';
+  tb.innerHTML = clients.length ? clients.map(c => {
+    const initials = Fmt.initials(`${c.first_name} ${c.last_name}`);
+    const active   = c.is_active !== false;
+    return `
+      <tr>
+        <td>
+          <div class="table-user">
+            <div class="table-avatar">${initials}</div>
+            <div><div class="table-user-name">${c.first_name} ${c.last_name}</div></div>
+          </div>
+        </td>
+        <td class="table-user-email">${c.email}</td>
+        <td>${c.phone || '<span style="color:var(--t-light)">—</span>'}</td>
+        <td>${c.ville || '—'}</td>
+        <td>${c.region ? `<span class="badge badge-muted">${c.region}</span>` : '—'}</td>
+        <td style="font-size:.8rem;color:var(--t-muted)">${Fmt.date(c.created_at)}</td>
+        <td>
+          <span class="badge ${active ? 'badge-success' : 'badge-danger'}">${active ? 'Actif' : 'Suspendu'}</span>
+        </td>
+        <td>
+          <div class="table-actions">
+            <button class="btn btn-secondary btn-sm" onclick="viewClient(${c.id})">Voir</button>
+            ${isAdmin ? `<button class="btn btn-sm ${active ? 'btn-warning' : 'btn-primary'}" onclick="toggleClient(${c.id}, ${active})">${active ? 'Suspendre' : 'Activer'}</button>` : ''}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('') : '<tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon">👥</div><div class="empty-state-title">Aucun client</div><div class="empty-state-desc">Les clients apparaîtront ici après inscription</div></div></td></tr>';
+}
+
+function filterClients() {
+  const q   = document.getElementById('clientSearch').value.toLowerCase();
+  const reg = document.getElementById('regionFilter').value;
+  renderClients(allClients.filter(c => {
+    const text = `${c.first_name} ${c.last_name} ${c.email} ${c.ville || ''} ${c.region || ''}`.toLowerCase();
+    const matchQ   = !q   || text.includes(q);
+    const matchReg = !reg || c.region === reg;
+    return matchQ && matchReg;
+  }));
+}
+
+function viewClient(id) {
+  const c = allClients.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('clientDetailTitle').textContent = `${c.first_name} ${c.last_name}`;
+  document.getElementById('clientDetailBody').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div><div style="font-size:.75rem;color:var(--t-muted);margin-bottom:4px">Email</div><div style="font-weight:500">${c.email}</div></div>
+      <div><div style="font-size:.75rem;color:var(--t-muted);margin-bottom:4px">Téléphone</div><div style="font-weight:500">${c.phone || '—'}</div></div>
+      <div><div style="font-size:.75rem;color:var(--t-muted);margin-bottom:4px">Ville</div><div style="font-weight:500">${c.ville || '—'}</div></div>
+      <div><div style="font-size:.75rem;color:var(--t-muted);margin-bottom:4px">Région</div><div style="font-weight:500">${c.region || '—'}</div></div>
+      <div><div style="font-size:.75rem;color:var(--t-muted);margin-bottom:4px">Date de naissance</div><div style="font-weight:500">${Fmt.date(c.date_naissance) || '—'}</div></div>
+      <div><div style="font-size:.75rem;color:var(--t-muted);margin-bottom:4px">Inscrit le</div><div style="font-weight:500">${Fmt.date(c.created_at)}</div></div>
+      ${c.adresse ? `<div style="grid-column:1/-1"><div style="font-size:.75rem;color:var(--t-muted);margin-bottom:4px">Adresse</div><div style="font-weight:500">${c.adresse}</div></div>` : ''}
+    </div>
+  `;
+  Modal.open('clientDetailModal');
+}
+
+async function toggleClient(id, currentActive) {
+  const action = currentActive ? 'suspendre' : 'activer';
+  if (!confirm(`Voulez-vous ${action} ce client ?`)) return;
+  try {
+    const res = await Http.patch(API.clientDetail(id), { is_active: !currentActive });
+    const idx = allClients.findIndex(c => c.id === id);
+    if (idx !== -1) { allClients[idx] = { ...allClients[idx], ...res, is_active: res.is_active }; }
+    renderClients(allClients);
+    Toast.show(currentActive ? 'Client suspendu' : 'Client activé', 'success');
+  } catch (err) {
+    Toast.show('Erreur', 'error', err.message);
+  }
+}
+
+window.filterClients = filterClients;
+window.viewClient = viewClient;
+window.toggleClient = toggleClient;
+AdminClients.init();
+</script>
+</body>
+</html>

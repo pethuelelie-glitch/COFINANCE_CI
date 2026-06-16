@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agents — COFINANCE CI</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="admin-agents">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-brand"><div class="sidebar-logo-mark">CI</div><div class="sidebar-brand-text"><div class="sidebar-brand-name">COFINANCE CI</div><div class="sidebar-brand-tag">ADMINISTRATION</div></div></div>
+    <button class="sidebar-close" onclick="Sidebar.close()">×</button>
+  </div>
+  <div class="sidebar-user"><div class="sidebar-avatar" style="background:linear-gradient(135deg,var(--c-danger),#f87171)"></div><div class="sidebar-user-info"><div class="sidebar-user-name">—</div><div class="sidebar-user-role">—</div></div></div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Administration</div>
+    <a href="admin-dashboard.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+    <a href="admin-clients.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Clients</a>
+    <a href="admin-agents.html" class="nav-item active"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>Agents</a>
+    <a href="admin-credits.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Crédits (Kanban)</a>
+    <a href="admin-insurances.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Assurances</a>
+    <a href="admin-support.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Support</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="profile.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mon profil</a>
+    <button class="nav-item nav-logout" id="logoutBtn"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+  </div>
+</aside>
+
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-menu-btn" id="menuToggle"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div class="topbar-breadcrumb">
+        <a href="admin-dashboard.html" class="breadcrumb-link">Admin</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>Agents</span>
+      </div>
+    </div>
+    <div class="topbar-right"><div class="topbar-avatar topbar-user-avatar">—</div></div>
+  </header>
+
+  <main class="app-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Gestion des agents</h1>
+        <p class="page-subtitle">Consultez, créez et gérez les comptes agents</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn-primary btn-sm" onclick="Modal.open('createAgentModal')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Créer un agent
+        </button>
+      </div>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="stat-cards-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:28px">
+      <div class="stat-card" style="--stat-accent:linear-gradient(90deg,var(--c-primary),var(--c-primary-hover))">
+        <div class="stat-card-content">
+          <div><div class="stat-card-label">Total agents</div><div class="stat-card-value" id="stat-agents-total">—</div></div>
+          <div class="stat-icon stat-icon-primary">👤</div>
+        </div>
+      </div>
+      <div class="stat-card" style="--stat-accent:linear-gradient(90deg,var(--c-success),#10b981)">
+        <div class="stat-card-content">
+          <div><div class="stat-card-label">Actifs</div><div class="stat-card-value" id="stat-agents-active">—</div></div>
+          <div class="stat-icon stat-icon-success">✓</div>
+        </div>
+      </div>
+      <div class="stat-card" style="--stat-accent:linear-gradient(90deg,var(--c-danger),#f87171)">
+        <div class="stat-card-content">
+          <div><div class="stat-card-label">Suspendus</div><div class="stat-card-value text-danger" id="stat-agents-inactive">—</div></div>
+          <div class="stat-icon stat-icon-danger">⊘</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search bar -->
+    <div class="filter-bar mb-4">
+      <div class="input-with-icon" style="flex:1;max-width:360px">
+        <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="form-control" id="agentSearch" placeholder="Rechercher par nom ou email…" oninput="filterAgents()" />
+      </div>
+      <select class="form-control form-select filter-select" id="statusFilter" onchange="filterAgents()">
+        <option value="">Tous les statuts</option>
+        <option value="active">Actifs</option>
+        <option value="inactive">Suspendus</option>
+      </select>
+    </div>
+
+    <!-- Table -->
+    <div class="card">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Agent</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Ville</th>
+              <th>Inscrit le</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="agentsTableBody">
+            <tr><td colspan="7" style="text-align:center;padding:40px"><div class="spinner" style="margin:0 auto"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal créer un agent -->
+<div class="modal-overlay" id="createAgentModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Créer un agent</h3>
+      <button class="modal-close" onclick="Modal.close('createAgentModal')">×</button>
+    </div>
+    <form id="createAgentForm" onsubmit="createAgent(event)">
+      <div class="modal-body">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Prénom <span class="req">*</span></label>
+            <input type="text" id="newAgentFirstName" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nom <span class="req">*</span></label>
+            <input type="text" id="newAgentLastName" class="form-control" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email <span class="req">*</span></label>
+          <input type="email" id="newAgentEmail" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Téléphone</label>
+          <input type="tel" id="newAgentPhone" class="form-control" placeholder="+225 07 00 00 00 00" />
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Mot de passe <span class="req">*</span></label>
+            <input type="password" id="newAgentPassword" class="form-control" required minlength="8" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirmer <span class="req">*</span></label>
+            <input type="password" id="newAgentPassword2" class="form-control" required minlength="8" />
+          </div>
+        </div>
+        <div id="createAgentError" style="display:none;padding:10px 12px;background:var(--c-danger-light);border:1px solid rgba(220,38,38,.2);border-radius:var(--r-sm);font-size:.84rem;color:var(--c-danger)"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" onclick="Modal.close('createAgentModal')">Annuler</button>
+        <button type="submit" class="btn btn-primary" id="createAgentBtn">Créer l'agent</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal détail agent -->
+<div class="modal-overlay" id="agentDetailModal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h3 class="modal-title" id="agentDetailTitle">Détail agent</h3>
+      <button class="modal-close" onclick="Modal.close('agentDetailModal')">×</button>
+    </div>
+    <div class="modal-body" id="agentDetailBody">
+      <div class="spinner" style="margin:32px auto"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="Modal.close('agentDetailModal')">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+let allAgents = [];
+
+async function initAgents() {
+  if (!Auth.requireLogin(['ADMIN'])) return;
+  Sidebar.init();
+  await loadAgents();
+}
+
+async function loadAgents() {
+  try {
+    const data = await Http.get(API.agentManage);
+    allAgents = data.results || data || [];
+  } catch {
+    allAgents = [];
+  }
+  setText('stat-agents-total',    allAgents.length);
+  setText('stat-agents-active',   allAgents.filter(a => a.is_active).length);
+  setText('stat-agents-inactive', allAgents.filter(a => !a.is_active).length);
+  renderAgents(allAgents);
+}
+
+function renderAgents(agents) {
+  const tb = document.getElementById('agentsTableBody');
+  if (!agents.length) {
+    tb.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon">👤</div><div class="empty-state-title">Aucun agent</div><div class="empty-state-desc">Cliquez sur "Créer un agent" pour en ajouter un.</div></div></td></tr>`;
+    return;
+  }
+  tb.innerHTML = agents.map(a => {
+    const name = `${a.first_name} ${a.last_name}`;
+    return `
+      <tr>
+        <td>
+          <div class="table-user">
+            <div class="table-avatar" style="background:linear-gradient(135deg,var(--c-danger),#f87171)">${Fmt.initials(name)}</div>
+            <div><div class="table-user-name">${name}</div></div>
+          </div>
+        </td>
+        <td class="table-user-email">${a.email}</td>
+        <td>${a.phone || '<span style="color:var(--t-light)">—</span>'}</td>
+        <td>${a.ville || '—'}</td>
+        <td style="font-size:.8rem;color:var(--t-muted)">${Fmt.date(a.created_at)}</td>
+        <td>
+          <span class="badge ${a.is_active ? 'badge-success' : 'badge-danger'}">
+            ${a.is_active ? 'Actif' : 'Suspendu'}
+          </span>
+        </td>
+        <td>
+          <div class="table-actions">
+            <button class="btn btn-secondary btn-sm" onclick="viewAgent(${a.id})">Voir</button>
+            <button class="btn btn-${a.is_active ? 'danger' : 'success'} btn-sm"
+              onclick="toggleAgent(${a.id}, ${!a.is_active})">
+              ${a.is_active ? 'Suspendre' : 'Activer'}
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function filterAgents() {
+  const q      = document.getElementById('agentSearch').value.toLowerCase();
+  const status = document.getElementById('statusFilter').value;
+  renderAgents(allAgents.filter(a => {
+    const text = `${a.first_name} ${a.last_name} ${a.email}`.toLowerCase();
+    const matchQ = !q || text.includes(q);
+    const matchS = !status
+      || (status === 'active'   &&  a.is_active)
+      || (status === 'inactive' && !a.is_active);
+    return matchQ && matchS;
+  }));
+}
+
+async function toggleAgent(id, newStatus) {
+  try {
+    await Http.patch(API.agentDetail(id), { is_active: newStatus });
+    Toast.show(newStatus ? 'Agent activé' : 'Agent suspendu', 'success');
+    await loadAgents();
+  } catch (err) {
+    Toast.show('Erreur', 'error', err.message);
+  }
+}
+
+function viewAgent(id) {
+  const a = allAgents.find(x => x.id === id);
+  if (!a) return;
+  const name = `${a.first_name} ${a.last_name}`;
+  document.getElementById('agentDetailTitle').textContent = name;
+  document.getElementById('agentDetailBody').innerHTML = `
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">
+      <div class="profile-avatar-lg" style="background:linear-gradient(135deg,var(--c-danger),#f87171);color:#fff;width:56px;height:56px;font-size:1.2rem;border:none">
+        ${Fmt.initials(name)}
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:1.05rem;color:var(--t-primary)">${name}</div>
+        <div style="font-size:.82rem;color:var(--t-muted)">${a.email}</div>
+        <span class="badge ${a.is_active ? 'badge-success' : 'badge-danger'}" style="margin-top:6px">
+          ${a.is_active ? 'Actif' : 'Suspendu'}
+        </span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <div style="font-size:.75rem;color:var(--t-muted);margin-bottom:4px">Téléphone</div>
+        <div style="font-weight:500">${a.phone || '—'}</div>
+      </div>
+      <div>
+        <div style="font-size:.75rem;color:var(--t-muted);margin-bottom:4px">Ville</div>
+        <div style="font-weight:500">${a.ville || '—'}</div>
+      </div>
+      <div>
+        <div style="font-size:.75rem;color:var(--t-muted);margin-bottom:4px">Région</div>
+        <div style="font-weight:500">${a.region ? `<span class="badge badge-muted">${a.region}</span>` : '—'}</div>
+      </div>
+      <div>
+        <div style="font-size:.75rem;color:var(--t-muted);margin-bottom:4px">Inscrit le</div>
+        <div style="font-weight:500">${Fmt.date(a.created_at)}</div>
+      </div>
+      ${a.adresse ? `<div style="grid-column:1/-1"><div style="font-size:.75rem;color:var(--t-muted);margin-bottom:4px">Adresse</div><div style="font-weight:500">${a.adresse}</div></div>` : ''}
+    </div>
+    <div style="margin-top:20px;padding:14px 16px;background:var(--bg-hover);border-radius:var(--r-md);border:1px solid var(--border)">
+      <div style="font-size:.75rem;font-weight:700;color:var(--t-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Action rapide</div>
+      <button class="btn btn-${a.is_active ? 'danger' : 'success'} btn-sm"
+        onclick="toggleAgent(${a.id}, ${!a.is_active}); Modal.close('agentDetailModal')">
+        ${a.is_active ? '⊘ Suspendre cet agent' : '✓ Activer cet agent'}
+      </button>
+    </div>
+  `;
+  Modal.open('agentDetailModal');
+}
+
+async function createAgent(e) {
+  e.preventDefault();
+  const errEl = document.getElementById('createAgentError');
+  errEl.style.display = 'none';
+
+  const firstName = document.getElementById('newAgentFirstName').value.trim();
+  const lastName  = document.getElementById('newAgentLastName').value.trim();
+  const email     = document.getElementById('newAgentEmail').value.trim();
+  const phone     = document.getElementById('newAgentPhone').value.trim();
+  const password  = document.getElementById('newAgentPassword').value;
+  const password2 = document.getElementById('newAgentPassword2').value;
+
+  if (password !== password2) {
+    errEl.textContent = 'Les mots de passe ne correspondent pas.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const btn = document.getElementById('createAgentBtn');
+  const origHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px"></span>Création…';
+
+  try {
+    await Http.post(API.agentManage, {
+      email, first_name: firstName, last_name: lastName, phone, password,
+    });
+    Modal.close('createAgentModal');
+    document.getElementById('createAgentForm').reset();
+    Toast.show('Agent créé avec succès', 'success');
+    await loadAgents();
+  } catch (err) {
+    errEl.textContent = err.message || 'Erreur lors de la création.';
+    errEl.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = origHTML;
+  }
+}
+
+window.filterAgents  = filterAgents;
+window.toggleAgent   = toggleAgent;
+window.viewAgent     = viewAgent;
+window.createAgent   = createAgent;
+
+initAgents();
+</script>
+</body>
+</html>

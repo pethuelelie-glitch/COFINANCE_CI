@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Remboursements — COFINANCE CI</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="repayments">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo-mark">CI</div>
+      <div class="sidebar-brand-text"><div class="sidebar-brand-name">COFINANCE CI</div><div class="sidebar-brand-tag">FINTECH</div></div>
+    </div>
+    <button class="sidebar-close" onclick="Sidebar.close()">×</button>
+  </div>
+  <div class="sidebar-user">
+    <div class="sidebar-avatar"></div>
+    <div class="sidebar-user-info"><div class="sidebar-user-name">—</div><div class="sidebar-user-role">—</div></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <a href="client-dashboard.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+    <a href="credits.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Mes crédits</a>
+    <a href="repayments.html" class="nav-item active"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Remboursements</a>
+    <a href="insurance.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Assurances</a>
+    <div class="nav-section-label">Communication</div>
+    <a href="notifications.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Notifications<span class="notif-count-badge nav-badge" style="display:none">0</span></a>
+    <a href="chat.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Support Chat</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="profile.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mon profil</a>
+    <button class="nav-item nav-logout" id="logoutBtn"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+  </div>
+</aside>
+
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-menu-btn" id="menuToggle"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div class="topbar-breadcrumb">
+        <a href="client-dashboard.html" class="breadcrumb-link">Accueil</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>Remboursements</span>
+      </div>
+    </div>
+    <div class="topbar-right"><div class="topbar-avatar topbar-user-avatar">—</div></div>
+  </header>
+
+  <main class="app-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Mes remboursements</h1>
+        <p class="page-subtitle">Suivez vos échéances et l'état de vos paiements</p>
+      </div>
+    </div>
+
+    <!-- Summary stats -->
+    <div class="stat-cards-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px">
+      <div class="stat-card" style="--stat-accent:linear-gradient(90deg,var(--c-success),#10b981)">
+        <div class="stat-card-content">
+          <div><div class="stat-card-label">Payées</div><div class="stat-card-value" id="cnt-paid">—</div></div>
+          <div class="stat-icon stat-icon-success">✓</div>
+        </div>
+      </div>
+      <div class="stat-card" style="--stat-accent:linear-gradient(90deg,var(--c-warning),#f59e0b)">
+        <div class="stat-card-content">
+          <div><div class="stat-card-label">En attente</div><div class="stat-card-value" id="cnt-pending">—</div></div>
+          <div class="stat-icon stat-icon-warning">⏳</div>
+        </div>
+      </div>
+      <div class="stat-card" style="--stat-accent:linear-gradient(90deg,var(--c-danger),#ef4444)">
+        <div class="stat-card-content">
+          <div><div class="stat-card-label">En retard</div><div class="stat-card-value text-danger" id="cnt-late">—</div></div>
+          <div class="stat-icon stat-icon-danger">⚠</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-bar mb-4">
+      <button class="tab-btn active" onclick="filterEcheances('all', this)">Toutes</button>
+      <button class="tab-btn" onclick="filterEcheances('EN_ATTENTE', this)">En attente</button>
+      <button class="tab-btn" onclick="filterEcheances('PAYEE', this)">Payées</button>
+      <button class="tab-btn" onclick="filterEcheances('EN_RETARD', this)">En retard</button>
+    </div>
+
+    <div class="card">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Crédit</th>
+              <th>#</th>
+              <th>Date échéance</th>
+              <th>Montant dû</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody id="repaymentsTableBody">
+            <tr><td colspan="5" style="text-align:center;padding:40px"><div class="spinner" style="margin:0 auto"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+let allEcheances = [];
+
+RepaymentsPage.init = async function() {
+  if (!Auth.requireLogin()) return;
+  Sidebar.init();
+  try {
+    const user = Auth.getUser();
+    const data = await Http.get(API.repayHistory(user.id));
+    allEcheances = data.results || data || [];
+    const paid   = allEcheances.filter(e => e.statut === 'PAYEE').length;
+    const late   = allEcheances.filter(e => e.statut === 'EN_RETARD').length;
+    const pending = allEcheances.length - paid - late;
+    document.getElementById('cnt-paid').textContent    = paid;
+    document.getElementById('cnt-pending').textContent = pending;
+    document.getElementById('cnt-late').textContent    = late;
+    renderEcheances(allEcheances);
+  } catch {
+    document.getElementById('repaymentsTableBody').innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">📋</div><div class="empty-state-title">Aucune donnée</div></div></td></tr>';
+  }
+};
+
+function renderEcheances(items) {
+  const tb = document.getElementById('repaymentsTableBody');
+  tb.innerHTML = items.length ? items.map(e => `
+    <tr class="${e.statut === 'EN_RETARD' ? 'row-warning' : e.statut === 'PAYEE' ? 'row-success' : ''}">
+      <td><span style="font-size:.8rem;color:var(--t-muted)">Crédit #${e.credit || e.credit_id}</span></td>
+      <td><div class="echeance-num ${e.statut === 'PAYEE' ? 'paid' : e.statut === 'EN_RETARD' ? 'late' : ''}">${e.numero_echeance}</div></td>
+      <td>${Fmt.date(e.date_echeance)}</td>
+      <td class="amount">${Fmt.money(e.montant_du)} FCFA</td>
+      <td>${Fmt.statusBadge(e.statut)}</td>
+    </tr>
+  `).join('') : '<tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">✅</div><div class="empty-state-title">Aucune échéance</div></div></td></tr>';
+}
+
+function filterEcheances(statut, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderEcheances(statut === 'all' ? allEcheances : allEcheances.filter(e => e.statut === statut));
+}
+
+window.filterEcheances = filterEcheances;
+RepaymentsPage.init();
+</script>
+</body>
+</html>

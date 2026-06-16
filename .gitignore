@@ -1,0 +1,60 @@
+# ── Secrets & configuration locale ──────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Python ───────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Environnement virtuel ─────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ── Django ───────────────────────────────────────────────────────────
+*.sqlite3
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+static_root/
+
+# ── Migrations générées automatiquement ──────────────────────────────
+# Décommente si tu veux versionner les migrations (recommandé en équipe)
+# cofci/*/migrations/0*.py
+
+# ── Logs ─────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── IDE & éditeurs ───────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Couverture de tests ───────────────────────────────────────────────
+.coverage
+htmlcov/
+.pytest_cache/
+coverage.xml
+
+# ── Node (si frontend build tools ajoutés plus tard) ─────────────────
+node_modules/
+npm-debug.log*
+
+# ── Fichiers uploadés par les utilisateurs ────────────────────────────
+cofci/media/

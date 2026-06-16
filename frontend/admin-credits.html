@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crédits Kanban — COFINANCE CI</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="admin-credits">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-brand"><div class="sidebar-logo-mark">CI</div><div class="sidebar-brand-text"><div class="sidebar-brand-name">COFINANCE CI</div><div class="sidebar-brand-tag">ADMINISTRATION</div></div></div>
+    <button class="sidebar-close" onclick="Sidebar.close()">×</button>
+  </div>
+  <div class="sidebar-user"><div class="sidebar-avatar" style="background:linear-gradient(135deg,var(--c-danger),#f87171)"></div><div class="sidebar-user-info"><div class="sidebar-user-name">—</div><div class="sidebar-user-role">—</div></div></div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Administration</div>
+    <a href="admin-dashboard.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+    <a href="admin-clients.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Clients</a>
+    <a href="admin-agents.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>Agents</a>
+    <a href="admin-credits.html" class="nav-item active"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Crédits (Kanban)</a>
+    <a href="admin-insurances.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Assurances</a>
+    <a href="admin-support.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Support</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="profile.html" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mon profil</a>
+    <button class="nav-item nav-logout" id="logoutBtn"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button>
+  </div>
+</aside>
+
+<div class="app-layout">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-menu-btn" id="menuToggle"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div class="topbar-breadcrumb">
+        <a href="admin-dashboard.html" class="breadcrumb-link">Admin</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>Crédits Kanban</span>
+      </div>
+    </div>
+    <div class="topbar-right"><div class="topbar-avatar topbar-user-avatar">—</div></div>
+  </header>
+
+  <main class="app-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Pipeline des crédits</h1>
+        <p class="page-subtitle">Glissez-déposez les demandes pour changer leur statut</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn-outline btn-sm" onclick="AdminCreditsKanban.reload()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Actualiser
+        </button>
+      </div>
+    </div>
+
+    <!-- Kanban board -->
+    <div class="kanban-board" id="kanbanBoard">
+      <div style="text-align:center;padding:40px;width:100%"><div class="spinner" style="margin:0 auto"></div></div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal détail crédit -->
+<div class="modal-overlay" id="creditDetailModal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h3 class="modal-title" id="creditDetailTitle">Détail du crédit</h3>
+      <button class="modal-close" onclick="Modal.close('creditDetailModal')">×</button>
+    </div>
+    <div class="modal-body" id="creditDetailBody">
+      <div class="spinner" style="margin:32px auto"></div>
+    </div>
+    <div class="modal-footer" id="creditDetailFooter">
+      <button class="btn btn-ghost" onclick="Modal.close('creditDetailModal')">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal changement statut -->
+<div class="modal-overlay" id="statusChangeModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Changer le statut</h3>
+      <button class="modal-close" onclick="Modal.close('statusChangeModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:.875rem;color:var(--t-muted);margin-bottom:16px" id="statusChangeDesc">—</p>
+      <div class="form-group">
+        <label class="form-label">Nouveau statut</label>
+        <select id="newStatusSelect" class="form-control form-select">
+          <option value="SOUMISE">Soumise</option>
+          <option value="EN_ANALYSE">En analyse</option>
+          <option value="APPROUVEE">Approuvée</option>
+          <option value="DECAISSEE">Décaissée</option>
+          <option value="REJETEE">Rejetée</option>
+        </select>
+      </div>
+      <div class="form-group" id="agentField">
+        <label class="form-label">Assigner un agent</label>
+        <select id="agentSelectKanban" class="form-control form-select">
+          <option value="">— Sans agent —</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="Modal.close('statusChangeModal')">Annuler</button>
+      <button class="btn btn-primary" onclick="confirmStatusChange()">Confirmer</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>
