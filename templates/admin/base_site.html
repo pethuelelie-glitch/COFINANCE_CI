@@ -72,7 +72,15 @@ body {
 }
 a:link, a:visited { color: var(--ci-blue2) !important; }
 a:hover            { color: var(--ci-blue)  !important; }
-h1 { font-size: 1.35rem !important; font-weight: 800 !important; color: var(--ci-text) !important; margin: 0 0 4px !important; }
+h1 {
+  font-size: 1.35rem !important;
+  font-weight: 800 !important;
+  color: var(--ci-text) !important;
+  margin: 0 0 16px !important;
+  padding: 0 !important;
+  display: block !important;
+  width: 100% !important;
+}
 h2 { font-size: 1rem !important; font-weight: 700 !important; color: var(--ci-text) !important; }
 
 /* ═══════════════════════════════════════════════════
@@ -161,27 +169,32 @@ main#content-start {
   flex: 1;
   min-width: 0;
 }
-/* #content : row — content-main | content-related */
+/* #content : simple block — le flex se fait au niveau de #changelist (Django 5.x) */
 #content {
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
-  min-width: 0;
-  float: none;
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  float: none !important;
+  padding: 0 !important;
 }
 #content-main {
-  flex: 1;
-  min-width: 0;
-  padding: 24px;
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 24px !important;
+  float: none !important;
+  box-sizing: border-box !important;
 }
+/* #content-related: not used in Django 5.x changelist (filter is in #changelist-filter).
+   Keep minimal reset for other admin pages that might still use it. */
 #content-related {
-  width: 220px;
-  flex-shrink: 0;
-  background: #fff;
-  border-left: 1px solid var(--ci-border);
-  padding: 0 0 20px;
-  align-self: stretch;
+  float: none !important;
+  position: static !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  width: auto !important;
 }
+.colMS { margin-right: 0 !important; }
 #footer {
   background: linear-gradient(135deg, #070e1d 0%, #0a1628 100%);
   border-top: 1px solid rgba(255,255,255,.07);
@@ -406,11 +419,19 @@ thead th.sorted .text { color: var(--ci-blue) !important; }
 tbody td {
   padding: 10px 14px !important;
   border-bottom: 1px solid #f3f4f6 !important;
-  color: var(--ci-text) !important;
+  color: #111827 !important;
   vertical-align: middle !important;
+  background: #fff !important;
 }
 tbody tr:last-child td { border-bottom: none !important; }
-tbody tr:hover td { background: var(--ci-bg) !important; }
+tbody tr:hover td { background: #f0f4ff !important; color: #111827 !important; }
+/* Liens dans les cellules du tableau */
+tbody td a, tbody td a:visited {
+  color: var(--ci-blue2) !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+}
+tbody td a:hover { color: var(--ci-blue) !important; text-decoration: underline !important; }
 
 /* Checkbox column */
 .action-checkbox-column { width: 28px !important; }
@@ -596,7 +617,35 @@ ul.errorlist li {
 /* ═══════════════════════════════════════════════════
    CHANGELIST
 ═══════════════════════════════════════════════════ */
-#changelist { padding: 0; }
+/*
+  Django 5.x places #changelist-filter INSIDE #changelist as a flex child.
+  #changelist already has .module class, so our .module { overflow:hidden }
+  was clipping/breaking the flex layout. We must override it here.
+*/
+#changelist {
+  padding: 0 !important;
+  overflow: visible !important;          /* Do not clip flex children */
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  margin-bottom: 0 !important;
+}
+#changelist .changelist-form-container {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  background: #fff;
+  border: 1px solid var(--ci-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  margin-bottom: 20px;
+}
 
 /* Actions bar */
 .actions {
@@ -696,12 +745,23 @@ p.paginator {
 #result_list { margin-top: 8px; }
 
 /* ═══════════════════════════════════════════════════
-   FILTRE DROIT (#content-related)
+   FILTRE SIDEBAR (#changelist-filter)
+   Django 5.x: positionné comme flex child DANS #changelist
 ═══════════════════════════════════════════════════ */
 #changelist-filter {
-  background: transparent !important;
-  border: none !important;
+  flex: 0 0 240px !important;
+  width: 240px !important;
+  order: 1 !important;
+  position: static !important;
+  float: none !important;
+  margin: 0 0 20px 20px !important;
+  background: #fff !important;
+  border: 1px solid var(--ci-border) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04) !important;
   padding: 0 !important;
+  align-self: flex-start !important;
 }
 #changelist-filter h2 {
   background: var(--ci-bg2) !important;
@@ -714,28 +774,55 @@ p.paginator {
   letter-spacing: .1em !important;
   border-bottom: 1px solid var(--ci-border) !important;
 }
+/* Django 5.x uses <details> for filter sections */
+#changelist-filter details,
 #changelist-filter h3 {
-  font-size: .72rem;
-  font-weight: 800;
-  color: var(--ci-text);
-  padding: 12px 16px 4px;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  border-top: 1px solid var(--ci-border);
+  border-top: 1px solid var(--ci-border) !important;
 }
-#changelist-filter h3:first-child { border-top: none; }
-#changelist-filter ul { list-style: none; padding: 4px 0 8px; margin: 0; }
+#changelist-filter details summary,
+#changelist-filter h3 {
+  font-size: .72rem !important;
+  font-weight: 800 !important;
+  color: var(--ci-text) !important;
+  padding: 10px 16px 4px !important;
+  margin: 0 !important;
+  text-transform: uppercase !important;
+  letter-spacing: .06em !important;
+  cursor: pointer !important;
+  list-style: none !important;
+}
+#changelist-filter details summary::-webkit-details-marker { display: none !important; }
+#changelist-filter ul { list-style: none !important; padding: 4px 0 8px !important; margin: 0 !important; }
 #changelist-filter li a {
-  display: block;
-  padding: 5px 16px;
-  font-size: .82rem;
-  color: #374151;
-  text-decoration: none;
-  transition: background .1s, color .1s;
+  display: block !important;
+  padding: 5px 16px !important;
+  font-size: .82rem !important;
+  color: #374151 !important;
+  text-decoration: none !important;
+  transition: background .1s, color .1s !important;
 }
-#changelist-filter li a:hover { background: var(--ci-bg2); color: var(--ci-blue); }
-#changelist-filter li.selected a { color: var(--ci-blue); font-weight: 700; }
+#changelist-filter li a:hover { background: var(--ci-bg2) !important; color: var(--ci-blue) !important; }
+#changelist-filter li.selected a {
+  color: var(--ci-blue) !important;
+  font-weight: 700 !important;
+  background: #eff6ff !important;
+  border-left: 3px solid var(--ci-blue2) !important;
+  padding-left: 13px !important;
+}
+/* "Afficher les nombres" link */
+#changelist-filter #changelist-filter-extra-actions {
+  padding: 8px 16px !important;
+  border-bottom: 1px solid var(--ci-border) !important;
+}
+#changelist-filter #changelist-filter-extra-actions a {
+  font-size: .78rem !important;
+  color: var(--ci-blue2) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+#changelist-filter #changelist-filter-extra-actions a:hover {
+  color: var(--ci-blue) !important;
+}
 
 /* ═══════════════════════════════════════════════════
    BADGES (list_display)

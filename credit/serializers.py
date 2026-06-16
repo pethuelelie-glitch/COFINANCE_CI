@@ -20,4 +20,4 @@ class CreditRequestSerializer(serializers.ModelSerializer):
             'pieces_justificatives', 'date_soumission', 'date_decision',
             'schedules'
         ]
-        read_only_fields = ['client', 'agent', 'statut', 'score_eligibilite', 'date_soumission', 'date_decision']
+        read_only_fields = ['client', 'agent', 'statut', 'score_eligibilite', 'date_soumission', 'date_decision', 'taux_interet']

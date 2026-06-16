@@ -51,7 +51,7 @@ class PaymentRequestSerializer(serializers.ModelSerializer):
     echeance_info       = serializers.SerializerMethodField()
     client_email        = serializers.CharField(source='client.email', read_only=True)
     client_name         = serializers.CharField(source='client.get_full_name', read_only=True)
-    agent_nom           = serializers.CharField(source='agent_validateur.get_full_name', read_only=True)
+    agent_name          = serializers.CharField(source='agent_validateur.get_full_name', read_only=True)
     mode_paiement_label = serializers.CharField(source='get_mode_paiement_display', read_only=True)
     statut_label        = serializers.CharField(source='get_statut_display', read_only=True)
 
@@ -63,7 +63,7 @@ class PaymentRequestSerializer(serializers.ModelSerializer):
             'montant', 'mode_paiement', 'mode_paiement_label',
             'reference_transaction', 'statut', 'statut_label',
             'note_client', 'note_agent',
-            'agent_validateur', 'agent_nom',
+            'agent_validateur', 'agent_name',
             'payment', 'created_at', 'updated_at',
         ]
 

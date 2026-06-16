@@ -25,7 +25,7 @@ class CreditRequest(models.Model):
     )
     montant_demande = models.IntegerField(verbose_name='Montant demandé (FCFA)')
     duree_mois = models.IntegerField(default=12, verbose_name='Durée (mois)')
-    taux_interet = models.FloatField(default=12.0, verbose_name="Taux d'intérêt annuel (%)")
+    taux_interet = models.FloatField(default=10.0, verbose_name="Taux d'intérêt annuel (%)")
     motif = models.TextField(verbose_name='Motif du prêt')
     description = models.TextField(blank=True, default='', verbose_name='Description complémentaire')
     statut = models.CharField(

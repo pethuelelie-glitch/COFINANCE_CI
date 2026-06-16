@@ -537,7 +537,9 @@ const LoginPage = {
         btn.innerHTML = '✓ Connecté !';
         btn.style.background = '#22C55E';
 
-        const dest = (data.user.role === 'CLIENT') ? 'client-dashboard.html' : 'admin-dashboard.html';
+        const dest = data.user.role === 'CLIENT' ? 'client-dashboard.html'
+                   : data.user.role === 'AGENT'  ? 'agent-dashboard.html'
+                   : 'admin-dashboard.html';
         window.location.href = APP_ROOT + dest;
 
       } catch (err) {
@@ -565,7 +567,9 @@ const LoginPage = {
     // ── Si déjà connecté : bandeau + masquer le formulaire complet ──────────
     if (Auth.isLoggedIn()) {
       const user = Auth.getUser();
-      const dest = (user?.role === 'CLIENT') ? 'client-dashboard.html' : 'admin-dashboard.html';
+      const dest = user?.role === 'CLIENT' ? 'client-dashboard.html'
+                 : user?.role === 'AGENT'  ? 'agent-dashboard.html'
+                 : 'admin-dashboard.html';
       const fullName = [user?.first_name, user?.last_name].filter(Boolean).join(' ') || user?.email || 'vous';
 
       const banner = document.createElement('div');

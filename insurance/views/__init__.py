@@ -1,1 +1,4 @@
-from .insurance_views import ProductListView, SubscribeView, MyPoliciesView, AllPoliciesView
+from .insurance_views import (
+    ProductListView, SubscribeView, MyPoliciesView, AllPoliciesView,
+    PolicyResilierView, ProductManageView, ProductDetailView,
+)

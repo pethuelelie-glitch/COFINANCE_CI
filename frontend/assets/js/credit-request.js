@@ -14,7 +14,7 @@ const CreditRequestPage = {
     const duree   = parseInt(document.getElementById('duree_mois')?.value) || 0;
     const motif   = document.getElementById('motif')?.value || '';
     const desc    = document.getElementById('description')?.value || '';
-    const taux    = parseFloat(document.getElementById('taux_interet')?.value) || 5;
+    const taux    = 10;
 
     errEl.style.display = 'none';
     if (!montant || montant < 10000) { errEl.textContent = 'Montant minimum : 10 000 FCFA.'; errEl.style.display = 'block'; return; }
@@ -50,7 +50,7 @@ const CreditRequestPage = {
 function updateSimulator() {
   const montant = parseFloat(document.getElementById('montant').value) || 0;
   const duree = parseInt(document.getElementById('duree_mois').value) || 0;
-  const taux = parseFloat(document.getElementById('taux_interet').value) || 0;
+  const taux = 10;
   const sim = document.getElementById('simulateur');
   if (montant > 0 && duree > 0) {
     sim.style.display = 'block';
@@ -71,7 +71,7 @@ function updateSimulator() {
 window.CreditRequestPage = CreditRequestPage;
 document.addEventListener('DOMContentLoaded', () => {
   CreditRequestPage.init();
-  ['montant', 'duree_mois', 'taux_interet'].forEach(id => {
+  ['montant', 'duree_mois'].forEach(id => {
     document.getElementById(id)?.addEventListener('input', updateSimulator);
     document.getElementById(id)?.addEventListener('change', updateSimulator);
   });

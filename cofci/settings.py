@@ -227,7 +227,7 @@ CORS_ALLOWED_ORIGINS = config(
 
 # ─── Répertoire du frontend ───────────────────────────────────────────────────
 # frontend/ est un dossier frère de cofci/ (le projet Django)
-FRONTEND_DIR = BASE_DIR.parent / 'frontend'
+FRONTEND_DIR = BASE_DIR / 'frontend'
 
 # ─── Fichiers statiques & médias ─────────────────────────────────────────────
 STATIC_URL = '/static/'
